@@ -1,12 +1,22 @@
-[gd_scene format=3 uid="uid://27dk63qdjfix"]
+[gd_scene load_steps=2 format=3 uid="uid://27dk63qdjfix"]
+
+[ext_resource type="Script" uid="uid://cdki88re1bnhn" path="res://Scripts/node_scene.gd" id="1_3prna"]
 
 [node name="Node_Menue" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 720.0
 offset_bottom = 480.0
+script = ExtResource("1_3prna")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+offset_right = 720.0
+offset_bottom = 480.0
+color = Color(0.942962, 0.853235, 0.666468, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+texture_filter = 4
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -22,18 +32,69 @@ grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Start_game" type="Button" parent="VBoxContainer"]
+[node name="ColorRect_Start_game" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 30)
 layout_mode = 2
-text = "Start"
+color = Color(0.850022, 0.618559, 0.478533, 1)
 
-[node name="Collection" type="Button" parent="VBoxContainer"]
+[node name="Start_game" type="Button" parent="VBoxContainer/ColorRect_Start_game"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 14
+text = "Start game"
+flat = true
+
+[node name="ColorRect_Collection" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 30)
 layout_mode = 2
+color = Color(0.850022, 0.618559, 0.478533, 1)
+
+[node name="Collection" type="Button" parent="VBoxContainer/ColorRect_Collection"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 14
 text = "Collection"
+flat = true
 
-[node name="Setting" type="Button" parent="VBoxContainer"]
+[node name="ColorRect_Trading" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 30)
 layout_mode = 2
-text = "Settings"
+color = Color(0.850022, 0.618559, 0.478533, 1)
 
-[node name="Setting2" type="Button" parent="VBoxContainer"]
+[node name="Trading" type="Button" parent="VBoxContainer/ColorRect_Trading"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 14
+text = "Trading"
+flat = true
+
+[node name="ColorRect_Setting" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 30)
 layout_mode = 2
+color = Color(0.850022, 0.618559, 0.478533, 1)
+
+[node name="Setting" type="Button" parent="VBoxContainer/ColorRect_Setting"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 14
+text = "Setting"
+flat = true
+
+[node name="ColorRect_Exit" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 30)
+layout_mode = 2
+color = Color(0.850022, 0.618559, 0.478533, 1)
+
+[node name="Exit" type="Button" parent="VBoxContainer/ColorRect_Exit"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 14
 text = "Exit"
+flat = true
+
+[connection signal="pressed" from="VBoxContainer/ColorRect_Start_game/Start_game" to="." method="_on_start_game_pressed"]
