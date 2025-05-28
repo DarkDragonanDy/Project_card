@@ -1,7 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://b48evgfat1b3o"]
+[gd_scene load_steps=4 format=4 uid="uid://b48evgfat1b3o"]
+
+[ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tile.png" id="1_w7k78"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oxf17"]
+texture = ExtResource("1_w7k78")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+1:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_7e3i2"]
 tile_shape = 3
+tile_offset_axis = 1
+tile_size = Vector2i(1024, 888)
+sources/8 = SubResource("TileSetAtlasSource_oxf17")
+tile_proxies/coords_level = [[5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vector2i(0, 0)], [8, Vector2i(1, 0)]]
 
 [node name="Battle" type="Control"]
 layout_mode = 3
@@ -52,7 +64,9 @@ grow_vertical = 2
 color = Color(0.69065, 0.625067, 0.54425, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="GridContainer/Game_board"]
-position = Vector2(360, 160)
+position = Vector2(361, 140)
+scale = Vector2(0.045, 0.045)
+tile_map_data = PackedByteArray("AAD/////CAABAAAAAAABAP7/CAABAAAAAAAAAP7/CAAAAAAAAAAAAP//CAABAAAAAAABAP//CAABAAAAAAAAAAAACAABAAAAAAD//wAACAABAAAAAAAAAAEACAAAAAAAAAABAAAACAABAAAAAAABAAEACAABAAAAAAACAAEACAABAAAAAAACAAAACAABAAAAAAABAAIACAAAAAAAAAABAP3/CAABAAAAAAAAAAIACAAAAAAAAAD//wEACAAAAAAAAAD9/wAACAAAAAAAAAD+/wAACAAAAAAAAAD+////CAAAAAAAAAD///7/CAABAAAAAAD8/wAACAAAAAAAAAD9////CAAAAAAAAAD9//7/CAAAAAAAAAD+//7/CAAAAAAAAAD///3/CAAAAAAAAAAAAP3/CAAAAAAAAAD+//3/CAAAAAAAAAD9//3/CAAAAAAAAAD8//7/CAAAAAAAAAD8////CAAAAAAAAAD7////CAAAAAAAAAACAP3/CAAAAAAAAAACAP7/CAABAAAAAAACAP//CAABAAAAAAD+/wEACAAAAAAAAAABAPz/CAABAAAAAAABAAMACAABAAAAAAA=")
 tile_set = SubResource("TileSet_7e3i2")
 
 [node name="Your Hand" type="Control" parent="GridContainer"]
