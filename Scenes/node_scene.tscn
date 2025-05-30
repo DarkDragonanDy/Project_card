@@ -97,4 +97,18 @@ theme_override_font_sizes/font_size = 14
 text = "Exit"
 flat = true
 
+[node name="ColorRect_Playground" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(240, 30)
+layout_mode = 2
+color = Color(0.747435, 0.130178, 3.85046e-07, 1)
+
+[node name="Playground" type="Button" parent="VBoxContainer/ColorRect_Playground"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 30.0
+theme_override_font_sizes/font_size = 14
+text = "Playground"
+flat = true
+
 [connection signal="pressed" from="VBoxContainer/ColorRect_Start_game/Start_game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/ColorRect_Playground/Playground" to="." method="_on_playground_pressed"]

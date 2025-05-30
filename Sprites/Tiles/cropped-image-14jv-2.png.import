@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btrvq8v4wd18t"
-path="res://.godot/imported/cropped-image-52ab-1.png-df8e50273972a57b1dd104e32d892104.ctex"
+uid="uid://cdyi4o0qrrr0a"
+path="res://.godot/imported/cropped-image-14jv-2.png-cb3434e14e7fc3dccc201e29dc9b7d94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/cropped-image-52ab-1.png"
-dest_files=["res://.godot/imported/cropped-image-52ab-1.png-df8e50273972a57b1dd104e32d892104.ctex"]
+source_file="res://Sprites/Tiles/cropped-image-14jv-2.png"
+dest_files=["res://.godot/imported/cropped-image-14jv-2.png-cb3434e14e7fc3dccc201e29dc9b7d94.ctex"]
 
 [params]
 

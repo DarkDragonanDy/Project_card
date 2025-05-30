@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://b7e7ypio11pt0"]
+
+[ext_resource type="Texture2D" uid="uid://blcut5iuevgp6" path="res://Sprites/photo_2025-05-23_13-55-42.jpg" id="1_okvs4"]
+[ext_resource type="Script" uid="uid://bvkyssy6qnfph" path="res://Scripts/move_card.gd" id="3_84j6k"]
+
+[sub_resource type="GDScript" id="GDScript_5hjqm"]
+script/source = "extends Node2D
+func _ready():
+	add_to_group(\"cards\",true)
+"
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_okvs4"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_5hjqm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84j6k"]
+size = Vector2(64, 90)
+
+[node name="Card_template" type="Node2D"]
+script = SubResource("GDScript_5hjqm")
+
+[node name="Card_back" type="Sprite2D" parent="."]
+modulate = Color(0.994649, 0.880293, 0.701674, 1)
+texture = SubResource("CanvasTexture_okvs4")
+region_enabled = true
+region_rect = Rect2(0, 0, 63.5, 88.9)
+
+[node name="Card_front_design" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0.863282, 0.575122, 0.30333, 1)
+position = Vector2(0, 28)
+texture = SubResource("CanvasTexture_5hjqm")
+region_enabled = true
+region_rect = Rect2(15, 9.375, 43.75, 19.875)
+
+[node name="Card_box_text" type="Sprite2D" parent="."]
+modulate = Color(0.863282, 0.575122, 0.30333, 1)
+position = Vector2(0, 28)
+texture = SubResource("CanvasTexture_5hjqm")
+region_enabled = true
+region_rect = Rect2(15, 9.375, 43.75, 19.875)
+
+[node name="Card_box_cost" type="Sprite2D" parent="."]
+modulate = Color(0.863282, 0.575122, 0.30333, 1)
+position = Vector2(28, -41)
+scale = Vector2(0.5, 0.4375)
+texture = SubResource("CanvasTexture_5hjqm")
+region_enabled = true
+region_rect = Rect2(15, 9.375, 15.375, 16)
+
+[node name="Card_box_name" type="Sprite2D" parent="."]
+modulate = Color(0.863282, 0.575122, 0.30333, 1)
+position = Vector2(0, 6)
+texture = SubResource("CanvasTexture_5hjqm")
+region_enabled = true
+region_rect = Rect2(15, 9.375, 23.188, 7.063)
+
+[node name="Card_art" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, -22)
+scale = Vector2(0.047727, 0.0361794)
+texture = ExtResource("1_okvs4")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("3_84j6k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_84j6k")

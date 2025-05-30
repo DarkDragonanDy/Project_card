@@ -1,6 +1,31 @@
-[gd_scene load_steps=4 format=4 uid="uid://b48evgfat1b3o"]
+[gd_scene load_steps=12 format=4 uid="uid://b48evgfat1b3o"]
 
-[ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tile.png" id="1_w7k78"]
+[ext_resource type="Texture2D" uid="uid://ckcqoxchk4w0c" path="res://Sprites/Tiles/cropped-image-85ui-3.png" id="1_1otgo"]
+[ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="1_w7k78"]
+[ext_resource type="Texture2D" uid="uid://on5bdvuw4nq5" path="res://Sprites/Tiles/cropped-image-99wl-4.png" id="2_pd5xk"]
+[ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_f6xt6"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ww2ai"]
+texture = ExtResource("1_1otgo")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lrv64"]
+texture = ExtResource("2_pd5xk")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qeyqd"]
+load_path = "res://.godot/imported/cropped-image-z32u-5.png-4bc72a3f94456dafea5d8fc18f963697.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k7mbx"]
+texture = SubResource("CompressedTexture2D_qeyqd")
+texture_region_size = Vector2i(1024, 1024)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_upb72"]
+texture = ExtResource("3_f6xt6")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oxf17"]
 texture = ExtResource("1_w7k78")
@@ -13,6 +38,10 @@ tile_shape = 3
 tile_offset_axis = 1
 tile_size = Vector2i(1024, 888)
 sources/8 = SubResource("TileSetAtlasSource_oxf17")
+sources/10 = SubResource("TileSetAtlasSource_ww2ai")
+sources/11 = SubResource("TileSetAtlasSource_lrv64")
+sources/12 = SubResource("TileSetAtlasSource_k7mbx")
+sources/13 = SubResource("TileSetAtlasSource_upb72")
 tile_proxies/coords_level = [[5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vector2i(0, 0)], [8, Vector2i(1, 0)]]
 
 [node name="Battle" type="Control"]
@@ -24,6 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_right = 720.0
 offset_bottom = 480.0
 color = Color(0.746761, 0.606103, 0.47752, 1)
@@ -66,7 +96,7 @@ color = Color(0.69065, 0.625067, 0.54425, 1)
 [node name="TileMapLayer" type="TileMapLayer" parent="GridContainer/Game_board"]
 position = Vector2(361, 140)
 scale = Vector2(0.045, 0.045)
-tile_map_data = PackedByteArray("AAD/////CAABAAAAAAABAP7/CAABAAAAAAAAAP7/CAAAAAAAAAAAAP//CAABAAAAAAABAP//CAABAAAAAAAAAAAACAABAAAAAAD//wAACAABAAAAAAAAAAEACAAAAAAAAAABAAAACAABAAAAAAABAAEACAABAAAAAAACAAEACAABAAAAAAACAAAACAABAAAAAAABAAIACAAAAAAAAAABAP3/CAABAAAAAAAAAAIACAAAAAAAAAD//wEACAAAAAAAAAD9/wAACAAAAAAAAAD+/wAACAAAAAAAAAD+////CAAAAAAAAAD///7/CAABAAAAAAD8/wAACAAAAAAAAAD9////CAAAAAAAAAD9//7/CAAAAAAAAAD+//7/CAAAAAAAAAD///3/CAAAAAAAAAAAAP3/CAAAAAAAAAD+//3/CAAAAAAAAAD9//3/CAAAAAAAAAD8//7/CAAAAAAAAAD8////CAAAAAAAAAD7////CAAAAAAAAAACAP3/CAAAAAAAAAACAP7/CAABAAAAAAACAP//CAABAAAAAAD+/wEACAAAAAAAAAABAPz/CAABAAAAAAABAAMACAABAAAAAAA=")
+tile_map_data = PackedByteArray("AAD/////DQAAAAAAAAABAP7/DQAAAAAAAAAAAP7/DQAAAAAAAAAAAP//DQAAAAAAAAABAP//DQAAAAAAAAAAAAAADQAAAAAAAAD//wAADQAAAAAAAAAAAAEADQAAAAAAAAABAAAADQAAAAAAAAABAAEACAAAAAAAAAACAAEADQAAAAAAAAACAAAADQAAAAAAAAABAAIADQAAAAAAAAABAP3/DQAAAAAAAAAAAAIADQAAAAAAAAD//wEADQAAAAAAAAD9/wAADQAAAAAAAAD+/wAADQAAAAAAAAD+////DQAAAAAAAAD///7/DQAAAAAAAAD8/wAADQAAAAAAAAD9////DQAAAAAAAAD9//7/DQAAAAAAAAD+//7/DQAAAAAAAAD///3/DQAAAAAAAAAAAP3/DQAAAAAAAAD+//3/DQAAAAAAAAD9//3/DQAAAAAAAAD8//7/DQAAAAAAAAD8////DQAAAAAAAAD7////DQAAAAAAAAACAP3/DQAAAAAAAAACAP7/DQAAAAAAAAACAP//DQAAAAAAAAD+/wEACAAAAAAAAAABAPz/DQAAAAAAAAABAAMADQAAAAAAAAAAAAMADQAAAAAAAAACAAIADQAAAAAAAAADAAAADQAAAAAAAAD+/wIADQAAAAAAAAACAAMADQAAAAAAAAD7//7/DQAAAAAAAAADAAEADQAAAAAAAAADAAIADQAAAAAAAAAEAAIADQAAAAAAAAAEAAEADQAAAAAAAAADAP//DQAAAAAAAAAEAAAADQAAAAAAAAAEAP//DQAAAAAAAAADAP7/DQAAAAAAAAADAP3/DQAAAAAAAAAEAP3/DQAAAAAAAAAEAP7/DQAAAAAAAAADAPz/DQAAAAAAAAD//wIADQAAAAAAAAAFAP7/DQAAAAAAAAAFAP//DQAAAAAAAAA=")
 tile_set = SubResource("TileSet_7e3i2")
 
 [node name="Your Hand" type="Control" parent="GridContainer"]

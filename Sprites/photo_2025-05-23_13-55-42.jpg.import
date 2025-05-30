@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cljrmgm2cdqnn"
-path="res://.godot/imported/cropped-image-86io-1.png-d59ba93772d456b6378cb96e1e1a2cc2.ctex"
+uid="uid://blcut5iuevgp6"
+path="res://.godot/imported/photo_2025-05-23_13-55-42.jpg-b453c2c6f154c3c7e3b9fa68583b9c60.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/cropped-image-86io-1.png"
-dest_files=["res://.godot/imported/cropped-image-86io-1.png-d59ba93772d456b6378cb96e1e1a2cc2.ctex"]
+source_file="res://Sprites/photo_2025-05-23_13-55-42.jpg"
+dest_files=["res://.godot/imported/photo_2025-05-23_13-55-42.jpg-b453c2c6f154c3c7e3b9fa68583b9c60.ctex"]
 
 [params]
 

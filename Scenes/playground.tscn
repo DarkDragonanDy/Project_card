@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5gtglaa5snfh"]
+
+[ext_resource type="PackedScene" uid="uid://b7e7ypio11pt0" path="res://Scenes/card_template.tscn" id="1_uof5o"]
+[ext_resource type="Script" uid="uid://cm2wxotntesbl" path="res://Scripts/card_template.gd" id="2_u4ce8"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_6xle2"]
+
+[node name="Playground" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(365.5, 247)
+scale = Vector2(731, 494)
+texture = SubResource("CanvasTexture_6xle2")
+
+[node name="Card_template" parent="." instance=ExtResource("1_uof5o")]
+position = Vector2(266, 304)
+scale = Vector2(1.86514, 1.86514)
+script = ExtResource("2_u4ce8")
+card_name = ""
+card_description = ""
+card_cost = 0
+card_unique_id = ""
