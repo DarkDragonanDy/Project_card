@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/node_scene.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://Sprites/icon.svg"
 
+[autoload]
+
+CardDatabase="*res://Scripts/card_database.gd"
+
 [display]
 
 window/size/viewport_width=720
