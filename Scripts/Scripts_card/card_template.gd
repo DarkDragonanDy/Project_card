@@ -15,11 +15,12 @@ class_name Card
 @onready var art = $Card_art
 @onready var name_label = $Card_box_name/Card_text_name
 
-func _init(name: String = "", desc: String = "", cost: int = 0, id: String = ""):
+func _init(name: String = "", desc: String = "", cost: int = 0, id: String = "",art: Texture2D = null):
 	card_name = name
 	card_description = desc
 	card_cost = cost
 	card_unique_id = id
+	card_art=art
 
 func update_card_display():
 	if name_label:
@@ -36,6 +37,11 @@ func card_effect():
 	
 func _ready():
 	update_card_display()
+func apply_card_data(data: Card):
+	card_name = data.card_name
+	card_description = data.card_description
+	card_cost = data.card_cost
+	card_art = data.card_art
 
 #func clone() -> Card:
 	#var new_card = Card.new()

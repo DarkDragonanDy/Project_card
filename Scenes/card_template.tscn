@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://b7e7ypio11pt0"]
 
-[ext_resource type="Script" uid="uid://cm2wxotntesbl" path="res://Scripts/card_template.gd" id="1_5hjqm"]
+[ext_resource type="Script" uid="uid://cm2wxotntesbl" path="res://Scripts/Scripts_card/card_template.gd" id="1_5hjqm"]
 [ext_resource type="Texture2D" uid="uid://blcut5iuevgp6" path="res://Sprites/photo_2025-05-23_13-55-42.jpg" id="1_okvs4"]
 [ext_resource type="Theme" uid="uid://bosnktrn0hmrw" path="res://Sprites/new_theme.tres" id="2_84j6k"]
-[ext_resource type="Script" uid="uid://bvkyssy6qnfph" path="res://Scripts/move_card.gd" id="3_84j6k"]
+[ext_resource type="Script" uid="uid://bvkyssy6qnfph" path="res://Scripts/Scripts_card/move_card.gd" id="3_84j6k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84j6k"]
 resource_local_to_scene = true
@@ -14,6 +14,9 @@ size = Vector2(64, 90)
 [sub_resource type="CanvasTexture" id="CanvasTexture_5hjqm"]
 
 [sub_resource type="FontFile" id="FontFile_n4r8k"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -121,6 +124,9 @@ cache/0/21/0/underline_thickness = 0.0
 cache/0/21/0/scale = 1.0
 
 [sub_resource type="FontFile" id="FontFile_84j6k"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
