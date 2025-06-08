@@ -111,4 +111,5 @@ text = "Playground"
 flat = true
 
 [connection signal="pressed" from="VBoxContainer/ColorRect_Start_game/Start_game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/ColorRect_Collection/Collection" to="." method="_on_collection_pressed"]
 [connection signal="pressed" from="VBoxContainer/ColorRect_Playground/Playground" to="." method="_on_playground_pressed"]

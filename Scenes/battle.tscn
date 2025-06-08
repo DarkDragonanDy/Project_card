@@ -16,7 +16,6 @@ texture_region_size = Vector2i(1024, 1024)
 0:0/0 = 0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qeyqd"]
-load_path = "res://.godot/imported/cropped-image-z32u-5.png-4bc72a3f94456dafea5d8fc18f963697.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k7mbx"]
 texture = SubResource("CompressedTexture2D_qeyqd")

@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://chphfet22thsu"]
+
+[ext_resource type="Script" uid="uid://g6c6uisjo8mg" path="res://Scripts/item_list_collection.gd" id="1_d2ee6"]
+
+[node name="Collection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 100
+dragger_visibility = 2
+drag_area_highlight_in_editor = true
+
+[node name="Collection_list" type="Control" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="VSplitContainer/Collection_list"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ItemList" type="ItemList" parent="VSplitContainer/Collection_list"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+allow_reselect = true
+allow_rmb_select = true
+auto_width = true
+auto_height = true
+item_count = 1
+
+[node name="Deck" type="Control" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="ColorRect2" type="ColorRect" parent="VSplitContainer/Deck"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ItemList_collection" type="ItemList" parent="VSplitContainer/Deck"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+wraparound_items = false
+max_columns = 3
+same_column_width = true
+script = ExtResource("1_d2ee6")
