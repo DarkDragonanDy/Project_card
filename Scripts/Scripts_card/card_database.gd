@@ -30,3 +30,4 @@ func art_capture(template_name: String):
 		data_instance.card_cost,
 		data_instance.card_art  
 	)
+	return texture

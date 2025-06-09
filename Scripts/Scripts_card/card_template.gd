@@ -39,7 +39,7 @@ func update_card_display():
 
 
 # Even simpler version using existing nodes
-static func generate_card_texture(name: String, desc: String, cost: int, art_texture: Texture2D = null, texture_size: Vector2 = Vector2(63.5, 88.9)) -> ImageTexture:
+static func generate_card_texture(name: String, desc: String, cost: int, art_texture: Texture2D = null, texture_size: Vector2 = Vector2(635, 889)) -> ImageTexture:
 	# Get current scene to add viewport to
 	var current_scene = Engine.get_main_loop().root.get_child(Engine.get_main_loop().root.get_child_count() - 1)
 
@@ -54,8 +54,10 @@ static func generate_card_texture(name: String, desc: String, cost: int, art_tex
 
 	# Create card
 	var card = card_scene.instantiate()
+	
 	viewport.add_child(card)
-	card.position = texture_size / 2
+	card.scale = Vector2(10, 10)
+	card.position = texture_size /2
 
 	# Wait for nodes to be ready
 	await current_scene.get_tree().process_frame
@@ -79,7 +81,7 @@ static func generate_card_texture(name: String, desc: String, cost: int, art_tex
 
 	# Wait for rendering
 	await current_scene.get_tree().process_frame
-	await current_scene.get_tree().process_frame
+
 
 	# Capture
 	var image = viewport.get_texture().get_image()
