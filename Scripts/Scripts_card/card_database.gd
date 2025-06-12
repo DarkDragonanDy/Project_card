@@ -1,8 +1,8 @@
 extends Node
 var card_database = {
-	"fireball": FireballCard,
+	"Meadow": Meadow_Card,
 	"iceball": IceballCard,
-	
+	"Fishing Place": FishingPlace_Card,
 }
 var card_scene = Card.new().card_scene
 func create_card_instance(template_name: String) -> Card:

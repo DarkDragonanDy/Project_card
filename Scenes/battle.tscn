@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=4 uid="uid://b48evgfat1b3o"]
+[gd_scene load_steps=13 format=4 uid="uid://b48evgfat1b3o"]
 
 [ext_resource type="Texture2D" uid="uid://ckcqoxchk4w0c" path="res://Sprites/Tiles/cropped-image-85ui-3.png" id="1_1otgo"]
 [ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="1_w7k78"]
 [ext_resource type="Texture2D" uid="uid://on5bdvuw4nq5" path="res://Sprites/Tiles/cropped-image-99wl-4.png" id="2_pd5xk"]
 [ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_f6xt6"]
+[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit.gd" id="5_pd5xk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ww2ai"]
 texture = ExtResource("1_1otgo")
@@ -110,3 +111,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.114219, 0.741994, 0.578464, 1)
+
+[node name="Exit" type="ColorRect" parent="."]
+offset_left = 681.0
+offset_top = -2.0
+offset_right = 721.0
+offset_bottom = 38.0
+color = Color(0.924131, 0.387928, 0.437383, 1)
+
+[node name="Button" type="Button" parent="Exit"]
+modulate = Color(0.746045, 0, 0.0358365, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_pd5xk")
+
+[connection signal="pressed" from="Exit/Button" to="Exit/Button" method="_on_pressed"]

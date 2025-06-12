@@ -86,14 +86,16 @@ static func generate_card_texture(name: String, desc: String, cost: int, art_tex
 	# Capture
 	var image = viewport.get_texture().get_image()
 	var texture = ImageTexture.create_from_image(image)
-	image = texture.get_image()
-	var filename = "res://" + name.to_lower().replace(" ", "_") + ".png"
-	var error = image.save_png(filename)
-
-	if error == OK:
-		print("Saved card texture: ", filename)
-	else:
-		print("Failed to save texture: ", error)
+	
+	
+	#image = texture.get_image()
+	#var filename = "res://" + name.to_lower().replace(" ", "_") + ".png"
+	#var error = image.save_png(filename)
+#
+	#if error == OK:
+		#print("Saved card texture: ", filename)
+	#else:
+		#print("Failed to save texture: ", error)
 
 	# Cleanup
 	viewport.queue_free()

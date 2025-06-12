@@ -2,8 +2,8 @@ extends Button
 func _on_button_pressed():
 	
 	# Reference your CardDatabase script directly
-	var new_card = CardDatabase.create_card_instance("fireball")
-	CardDatabase.art_capture("fireball")
+	var new_card = CardDatabase.create_card_instance("Meadow")
+	CardDatabase.art_capture("Meadow")
 	
 	if new_card:
 		

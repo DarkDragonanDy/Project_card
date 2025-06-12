@@ -1,18 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5gtglaa5snfh"]
+[gd_scene load_steps=8 format=3 uid="uid://b5gtglaa5snfh"]
 
 [ext_resource type="PackedScene" uid="uid://b7e7ypio11pt0" path="res://Scenes/card_template.tscn" id="1_uof5o"]
 [ext_resource type="Texture2D" uid="uid://cljrmgm2cdqnn" path="res://Sprites/Tiles/cropped-image-86io-1.png" id="3_qyfof"]
 [ext_resource type="Texture2D" uid="uid://cdyi4o0qrrr0a" path="res://Sprites/Tiles/cropped-image-14jv-2.png" id="3_u4ce8"]
 [ext_resource type="Script" uid="uid://fcg52rsv7rw1" path="res://Scripts/button.gd" id="4_qyfof"]
 [ext_resource type="Script" uid="uid://cjl057ogbfyib" path="res://Scripts/node.gd" id="5_3e07v"]
+[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit.gd" id="6_vl51c"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_6xle2"]
 
 [node name="Playground" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(365.5, 247)
-scale = Vector2(731, 494)
+position = Vector2(359.5, 239.5)
+scale = Vector2(719, 479)
 texture = SubResource("CanvasTexture_6xle2")
 
 [node name="Card_template" parent="." instance=ExtResource("1_uof5o")]
@@ -48,4 +49,19 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("5_3e07v")
 
+[node name="Exit" type="ColorRect" parent="."]
+offset_left = 679.0
+offset_top = -3.0
+offset_right = 719.0
+offset_bottom = 37.0
+color = Color(0.924131, 0.387928, 0.437383, 1)
+
+[node name="Button" type="Button" parent="Exit"]
+modulate = Color(0.746045, 0, 0.0358365, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_vl51c")
+
 [connection signal="pressed" from="Button" to="Button" method="_on_button_pressed"]
+[connection signal="pressed" from="Exit/Button" to="Exit/Button" method="_on_pressed"]

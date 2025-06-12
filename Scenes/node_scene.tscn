@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://27dk63qdjfix"]
+[gd_scene load_steps=3 format=3 uid="uid://27dk63qdjfix"]
 
 [ext_resource type="Script" uid="uid://cdki88re1bnhn" path="res://Scripts/node_scene.gd" id="1_3prna"]
+[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit.gd" id="2_kj18g"]
 
 [node name="Node_Menue" type="Control"]
 layout_mode = 3
@@ -110,6 +111,22 @@ theme_override_font_sizes/font_size = 14
 text = "Playground"
 flat = true
 
+[node name="Exit" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 680.0
+offset_top = 440.0
+offset_right = 720.0
+offset_bottom = 480.0
+color = Color(0.924131, 0.387928, 0.437383, 1)
+
+[node name="Button" type="Button" parent="Exit"]
+modulate = Color(0.746045, 0, 0.0358365, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_kj18g")
+
 [connection signal="pressed" from="VBoxContainer/ColorRect_Start_game/Start_game" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/ColorRect_Collection/Collection" to="." method="_on_collection_pressed"]
 [connection signal="pressed" from="VBoxContainer/ColorRect_Playground/Playground" to="." method="_on_playground_pressed"]
+[connection signal="pressed" from="Exit/Button" to="Exit/Button" method="_on_pressed"]

@@ -3,7 +3,7 @@ extends ItemList
 
 @onready var item_list: ItemList =$"."  # Reference to your ItemList node
 # Reference to your ItemList
-
+signal collection_loaded
 
 # Array to store your created objects
 
@@ -17,7 +17,7 @@ func _ready():
 
 func populate_with_card_scenes():
 	for card_name in CardDatabase.card_database.keys():
-		var card_instance = CardDatabase.create_card_instance(card_name)
+		#var card_instance = CardDatabase.create_card_instance(card_name)
 		var texture = await CardDatabase.art_capture(card_name)
-		item_list.add_item(card_instance.card_name)
-		item_list.set_item_icon(item_list.get_item_count() - 1, texture)
+		item_list.add_item(card_name,texture)
+	collection_loaded.emit()

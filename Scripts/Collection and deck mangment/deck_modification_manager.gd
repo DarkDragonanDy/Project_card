@@ -75,7 +75,7 @@ func _handle_drop():
 	if deck_rect.has_point(mouse_pos):
 		# If we have a deck manager, let it handle the add
 		if deck_manager and deck_manager.has_method("add_card"):
-			deck_manager.add_card(dragged_item_data.text, dragged_item_data.icon)
+			deck_manager.add_card(dragged_item_data["index"])
 		else:
 			# Otherwise add directly
 			# Create a scaled version of the icon for the deck

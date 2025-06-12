@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqj68vprfoblh"
-path="res://.godot/imported/fireball.png-c7822e52cb66c739ed23dd48a4e71947.ctex"
+uid="uid://cuibsbm6exyf8"
+path="res://.godot/imported/photo_2025-06-09_19-39-55.jpg-d07dfb1adc948a895ccbf606083dc240.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://fireball.png"
-dest_files=["res://.godot/imported/fireball.png-c7822e52cb66c739ed23dd48a4e71947.ctex"]
+source_file="res://Sprites/Sprites_card_art/photo_2025-06-09_19-39-55.jpg"
+dest_files=["res://.godot/imported/photo_2025-06-09_19-39-55.jpg-d07dfb1adc948a895ccbf606083dc240.ctex"]
 
 [params]
 
