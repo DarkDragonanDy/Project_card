@@ -17,7 +17,8 @@ config/icon="res://Sprites/icon.svg"
 
 [autoload]
 
-CardDatabase="*res://Scripts/Scripts_card/card_database.gd"
+CardDatabase="*res://Scripts/Scripts_card/Card_defenition/card_database.gd"
+DeckData="*res://Scripts/Collection and deck mangment/Deck_data.gd"
 
 [display]
 
