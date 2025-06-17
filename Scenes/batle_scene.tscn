@@ -1,0 +1,157 @@
+[gd_scene load_steps=16 format=4 uid="uid://bow8thkqjeif0"]
+
+[ext_resource type="Script" uid="uid://cmughckqkngrv" path="res://Scripts/Battle_scripts/Game_manager.gd" id="1_ddmmf"]
+[ext_resource type="Texture2D" uid="uid://ckcqoxchk4w0c" path="res://Sprites/Tiles/cropped-image-85ui-3.png" id="1_dfds4"]
+[ext_resource type="Texture2D" uid="uid://on5bdvuw4nq5" path="res://Sprites/Tiles/cropped-image-99wl-4.png" id="2_ddmmf"]
+[ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_dr1m7"]
+[ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="4_vs4tl"]
+[ext_resource type="Script" uid="uid://cqu2h4dcj2ynx" path="res://Scripts/Battle_scripts/Hand_Manger.gd" id="5_7hkq8"]
+[ext_resource type="Script" uid="uid://x7auran8vctc" path="res://Scripts/Battle_scripts/deck_to_hand_manager.gd" id="6_dfds4"]
+[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit_collection.gd" id="6_olq85"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mvbrm"]
+texture = ExtResource("1_dfds4")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ao2oo"]
+texture = ExtResource("2_ddmmf")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qeyqd"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ep4rr"]
+texture = SubResource("CompressedTexture2D_qeyqd")
+texture_region_size = Vector2i(1024, 1024)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ls15t"]
+texture = ExtResource("3_dr1m7")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a0nht"]
+texture = ExtResource("4_vs4tl")
+texture_region_size = Vector2i(1024, 1024)
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_4a4nb"]
+tile_shape = 3
+tile_offset_axis = 1
+tile_size = Vector2i(1024, 888)
+sources/8 = SubResource("TileSetAtlasSource_a0nht")
+sources/10 = SubResource("TileSetAtlasSource_mvbrm")
+sources/11 = SubResource("TileSetAtlasSource_ao2oo")
+sources/12 = SubResource("TileSetAtlasSource_ep4rr")
+sources/13 = SubResource("TileSetAtlasSource_ls15t")
+tile_proxies/coords_level = [[5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vector2i(0, 0)], [8, Vector2i(1, 0)]]
+
+[node name="Battle_scene" type="Node2D"]
+script = ExtResource("1_ddmmf")
+
+[node name="Game_manager" type="Node" parent="."]
+
+[node name="Control_lair" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 720.0
+offset_bottom = 480.0
+mouse_filter = 1
+
+[node name="Game_UI" type="Control" parent="Control_lair"]
+anchors_preset = 0
+offset_right = 720.0
+offset_bottom = 480.0
+mouse_filter = 1
+
+[node name="ColorRect" type="ColorRect" parent="Control_lair/Game_UI"]
+layout_mode = 0
+offset_right = 720.0
+offset_bottom = 480.0
+color = Color(0.746761, 0.606103, 0.47752, 1)
+
+[node name="GridContainer" type="GridContainer" parent="Control_lair/Game_UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/v_separation = 0
+
+[node name="Opponent_hand" type="Control" parent="Control_lair/Game_UI/GridContainer"]
+custom_minimum_size = Vector2(720, 80)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ColorRect" type="ColorRect" parent="Control_lair/Game_UI/GridContainer/Opponent_hand"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 0.436722, 0.29968, 1)
+
+[node name="Game_board" type="Control" parent="Control_lair/Game_UI/GridContainer"]
+custom_minimum_size = Vector2(720, 320)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ColorRect" type="ColorRect" parent="Control_lair/Game_UI/GridContainer/Game_board"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.69065, 0.625067, 0.54425, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Control_lair/Game_UI/GridContainer/Game_board"]
+position = Vector2(361, 140)
+scale = Vector2(0.045, 0.045)
+tile_map_data = PackedByteArray("AAD/////DQAAAAAAAAABAP7/DQAAAAAAAAAAAP7/DQAAAAAAAAAAAP//DQAAAAAAAAABAP//DQAAAAAAAAAAAAAADQAAAAAAAAD//wAADQAAAAAAAAAAAAEADQAAAAAAAAABAAAADQAAAAAAAAABAAEACAAAAAAAAAACAAEADQAAAAAAAAACAAAADQAAAAAAAAABAAIADQAAAAAAAAABAP3/DQAAAAAAAAAAAAIADQAAAAAAAAD//wEADQAAAAAAAAD9/wAADQAAAAAAAAD+/wAADQAAAAAAAAD+////DQAAAAAAAAD///7/DQAAAAAAAAD8/wAADQAAAAAAAAD9////DQAAAAAAAAD9//7/DQAAAAAAAAD+//7/DQAAAAAAAAD///3/DQAAAAAAAAAAAP3/DQAAAAAAAAD+//3/DQAAAAAAAAD9//3/DQAAAAAAAAD8//7/DQAAAAAAAAD8////DQAAAAAAAAD7////DQAAAAAAAAACAP3/DQAAAAAAAAACAP7/DQAAAAAAAAACAP//DQAAAAAAAAD+/wEACAAAAAAAAAABAPz/DQAAAAAAAAABAAMADQAAAAAAAAAAAAMADQAAAAAAAAACAAIADQAAAAAAAAADAAAADQAAAAAAAAD+/wIADQAAAAAAAAACAAMADQAAAAAAAAD7//7/DQAAAAAAAAADAAEADQAAAAAAAAADAAIADQAAAAAAAAAEAAIADQAAAAAAAAAEAAEADQAAAAAAAAADAP//DQAAAAAAAAAEAAAADQAAAAAAAAAEAP//DQAAAAAAAAADAP7/DQAAAAAAAAADAP3/DQAAAAAAAAAEAP3/DQAAAAAAAAAEAP7/DQAAAAAAAAADAPz/DQAAAAAAAAD//wIADQAAAAAAAAAFAP7/DQAAAAAAAAAFAP//DQAAAAAAAAA=")
+tile_set = SubResource("TileSet_4a4nb")
+
+[node name="Your Hand" type="Control" parent="Control_lair/Game_UI/GridContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ColorRect" type="ColorRect" parent="Control_lair/Game_UI/GridContainer/Your Hand"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.114219, 0.741994, 0.578464, 1)
+
+[node name="Exit" type="ColorRect" parent="Control_lair/Game_UI"]
+layout_mode = 0
+offset_left = 681.0
+offset_top = -2.0
+offset_right = 721.0
+offset_bottom = 38.0
+color = Color(0.924131, 0.387928, 0.437383, 1)
+
+[node name="Button" type="Button" parent="Control_lair/Game_UI/Exit"]
+modulate = Color(0.746045, 0, 0.0358365, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_olq85")
+
+[node name="Playable_lair" type="Node2D" parent="."]
+
+[node name="DeckToHand_manager" type="Node" parent="Playable_lair"]
+script = ExtResource("6_dfds4")
+
+[node name="Hand_manager" type="Node2D" parent="Playable_lair"]
+script = ExtResource("5_7hkq8")
+
+[connection signal="pressed" from="Control_lair/Game_UI/Exit/Button" to="Control_lair/Game_UI/Exit/Button" method="_on_pressed"]
