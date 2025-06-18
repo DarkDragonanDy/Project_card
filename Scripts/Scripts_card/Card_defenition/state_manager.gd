@@ -46,6 +46,10 @@ func _handle_state_transition():
 			_exit_hand_state()
 		CardState.DRAGGING:
 			_exit_dragging_state()
+		CardState.HOVERING:
+			_exit_hovering_state()
+		CardState.PLAYED:
+			_exit_played_state()
 	
 	# Handle enter actions for new state
 	match current_state:
@@ -55,27 +59,35 @@ func _handle_state_transition():
 			_enter_played_state()
 		CardState.IN_GRAVEYARD:
 			_enter_graveyard_state()
+		
+		
 
 func _exit_hand_state():
 	pass
 
 func _exit_dragging_state():
 	pass
+func _exit_hovering_state():
+	pass
+func _exit_played_state():
+	pass
 
 func _enter_hand_state():
 	var card = get_parent()
-	if card.has_node("DragHandler"):
-		card.get_node("DragHandler").input_pickable = true
+	if card.has_node("Drag_handler"):
+		card.get_node("Drag_handler").input_pickable = true
 
 func _enter_played_state():
 	var card = get_parent()
-	if card.has_node("DragHandler"):
-		card.get_node("DragHandler").input_pickable = false
+	if card.has_node("Drag_handler"):
+		print("pass")
+		card.get_node("Drag_handler").input_pickable = false
 
 func _enter_graveyard_state():
 	var card = get_parent()
 	card.visible = false
 
+	
 func get_current_state_name() -> String:
 	match current_state:
 		CardState.IN_DECK: return "In Deck"

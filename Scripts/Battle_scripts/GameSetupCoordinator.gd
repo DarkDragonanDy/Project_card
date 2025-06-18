@@ -8,7 +8,7 @@ class_name GameSetupCoordinator
 # References to game systems
 @onready var deck_to_hand_manager: DeckToHandManager = $Playable_lair/DeckToHand_manager
 @onready var hand_manager: HandManager = $Playable_lair/Hand_manager
-@onready var game_manager: Node = $Game_manager
+#@onready var game_manager: Node = $Game_manager
 
 # Setup state
 var is_setup_complete: bool = false
@@ -27,11 +27,14 @@ func _initialize_game_systems():
 	# Step 1: Validate deck data
 	_validate_deck_data()
 	
+	# Step 3: Initialize hand manager
+	_initialize_hand_manager()
+	
 	# Step 2: Connect system signals
 	_connect_system_signals()
 	
-	# Step 3: Initialize hand manager
-	_initialize_hand_manager()
+	
+	
 	
 	# Step 4: Wait for deck loading and hand drawing
 	await _wait_for_deck_initialization()
@@ -67,8 +70,8 @@ func _connect_system_signals():
 	if hand_manager:
 		if hand_manager.has_signal("card_drawn"):
 			hand_manager.card_drawn.connect(_on_card_drawn)
-		if hand_manager.has_signal("card_played"):
-			hand_manager.card_played.connect(_on_card_played)
+		#if hand_manager.has_signal("card_played"):
+			#hand_manager.card_played.connect(_on_card_played)
 		if hand_manager.has_signal("hand_full"):
 			hand_manager.hand_full.connect(_on_hand_full)
 	
@@ -111,10 +114,9 @@ func _wait_for_deck_initialization():
 	_complete_setup_step("Deck Initialization")
 
 func _complete_setup():
-	is_setup_complete = true
 	
 	# Final system checks
-	_perform_final_checks()
+	is_setup_complete=_perform_final_checks()
 	
 	print("=== Game Setup Complete ===")
 	print("Hand size: ", hand_manager.get_hand_size() if hand_manager else "N/A")
@@ -136,11 +138,12 @@ func _perform_final_checks():
 		issues.append("DeckToHandManager missing")
 	
 	# Check game manager
-	if not game_manager:
-		issues.append("GameManager missing")
+	#if not game_manager:
+		#issues.append("GameManager missing")
 	
 	if issues.is_empty():
 		print("✓ All systems operational")
+		return true
 	else:
 		print("⚠ Issues detected: ", issues)
 
@@ -169,15 +172,17 @@ func _on_card_drawn(card: Card):
 	if hand_manager:
 		card.set_hand_manager(hand_manager)
 
-func _on_card_played(card: Card, hex_position: Vector2i):
-	print("Card played: ", card.card_name, " at position: ", hex_position)
-	
-	# Handle card play logic
-	if game_manager and game_manager.has_method("handle_card_played"):
-		game_manager.handle_card_played(card, hex_position)
+#func _on_card_played(card: Card, hex_position: Vector2i):
+	#print("Card played: ", card.card_name, " at position: ", hex_position)
+	#
+	## Handle card play logic
+	#if game_manager and game_manager.has_method("handle_card_played"):
+		#game_manager.handle_card_played(card, hex_position)
 
 func _on_hand_full():
 	print("Hand is full - cannot draw more cards")
+
+
 
 # Public methods for external systems
 func is_game_ready() -> bool:
@@ -201,6 +206,9 @@ func get_deck_size() -> int:
 		return deck_to_hand_manager.get_deck_size()
 	return 0
 
+
+
+
 # Debug functions
 func print_game_state():
 	print("=== Game State ===")
@@ -220,11 +228,11 @@ func _input(event):
 	
 	# Debug controls (remove in production)
 	if event.is_action_pressed("ui_accept"):  # Space
-		if Input.is_action_pressed("ui_select"):  # Shift+Space
+		if Input.is_action_pressed("ui_select"):  #Space
 			print_game_state()
 			force_draw_card()
-		else:
-			force_draw_card()
+		
+		
 	
 	elif event.is_action_pressed("ui_cancel"):  # Escape
 		print("Game state reset requested")

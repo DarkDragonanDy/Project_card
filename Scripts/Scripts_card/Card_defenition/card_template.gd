@@ -90,9 +90,11 @@ func _on_dropped_on_hex(card: Card, hex_pos: Vector2i):
 	if state_manager:
 		state_manager.change_state("played")
 
+################################
 func _on_collision_detected(other_card: Card):
 	# Handle visual feedback for collision
-	_show_collision_feedback()
+	pass
+	#_show_collision_feedback()
 
 func _show_collision_feedback():
 	# Brief color flash to indicate collision
@@ -118,7 +120,7 @@ func is_colliding() -> bool:
 	if drag_handler and drag_handler.has_method("is_colliding_with_cards"):
 		return drag_handler.is_colliding_with_cards()
 	return false
-
+##################################
 # Texture generation (unchanged but included for completeness)
 static func generate_card_texture(name: String, desc: String, cost: int, art_texture: Texture2D = null, texture_size: Vector2 = Vector2(635, 889)) -> ImageTexture:
 	# Get current scene to add viewport to

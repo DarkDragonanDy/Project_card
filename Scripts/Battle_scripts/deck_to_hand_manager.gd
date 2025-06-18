@@ -102,13 +102,13 @@ func draw_card() -> bool:
 	print("Failed to create card instance for: ", card_data.get("name", "Unknown"))
 	return false
 
-func _create_game_card(card_data: Dictionary) -> Card:
+func _create_game_card(card_data_deck: Dictionary) -> Card:
 	# Validate card data
-	if not card_data.has("name"):
+	if not card_data_deck.has("name"):
 		print("Error: Card data missing name field")
 		return null
 	
-	var card_name = card_data["name"]
+	var card_name = card_data_deck["name"]
 	
 	# Create card instance from database
 	var card_instance = CardDatabase.create_card_instance(card_name)
@@ -118,7 +118,7 @@ func _create_game_card(card_data: Dictionary) -> Card:
 		return null
 	
 	# Set up card for gameplay
-	_setup_card_for_game(card_instance, card_data)
+	_setup_card_for_game(card_instance, card_data_deck)
 	
 	return card_instance
 
@@ -132,6 +132,8 @@ func _setup_card_for_game(card: Card, card_data: Dictionary):
 	# Connect game-specific signals
 	if game_manager and game_manager.has_method("_on_card_created"):
 		game_manager._on_card_created(card)
+
+
 
 func force_draw_card() -> bool:
 	# For manual card drawing (e.g., special abilities)
@@ -185,9 +187,7 @@ func shuffle_card_into_deck(card_data: Dictionary, position: String = "random"):
 func _on_hand_full():
 	print("Hand is full, cannot draw more cards")
 
-func _on_card_played(card: Card):
-	# Handle when a card is played from hand
-	print("Card played: ", card.card_name)
+
 
 # Debug functions
 func print_deck_state():

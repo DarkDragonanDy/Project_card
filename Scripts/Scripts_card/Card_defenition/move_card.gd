@@ -7,6 +7,7 @@ var drag_offset: Vector2
 var original_parent: Node
 var original_z_index: int
 var original_position: Vector2
+var original_rotation
 
 # Visual feedback
 const HOVER_SCALE: Vector2 = Vector2(1.1, 1.1)
@@ -29,6 +30,7 @@ var is_avoiding_collision: bool = false
 # Animation
 var position_tween: Tween
 var scale_tween: Tween
+
 
 # Signals
 signal drag_started(card: Card)
@@ -128,26 +130,30 @@ func _get_card_size() -> Vector2:
 	return Vector2(64, 89) * card_ref.scale
 
 func _on_mouse_entered():
-	if not is_dragging and card_ref:
+	if not is_dragging:
 		_animate_hover(true)
 
 func _on_mouse_exited():
-	if not is_dragging and card_ref:
+	if not is_dragging :
 		_animate_hover(false)
+		
 
 func _on_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed and not is_dragging:
+			_animate_hover(false)
 			_start_drag()
 
 func _input(event):
 	if is_dragging and event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		if  not event.pressed:
 			_end_drag()
 
 func _start_drag():
 	if not card_ref:
 		return
+	
+	
 	
 	is_dragging = true
 	drag_offset = get_global_mouse_position() - card_ref.global_position
@@ -156,6 +162,8 @@ func _start_drag():
 	original_parent = card_ref.get_parent()
 	original_z_index = card_ref.z_index
 	original_position = card_ref.global_position
+	original_rotation=card_ref.rotation
+	print(original_rotation)
 	
 	if hand_manager:
 		original_position = hand_manager.get_card_hand_position(card_ref)
@@ -164,6 +172,8 @@ func _start_drag():
 	card_ref.z_index = 1000  # Bring to front
 	_animate_scale(DRAG_SCALE)
 	
+	position_tween = create_tween()
+	position_tween.tween_property(card_ref, "rotation", 0.0, 0.2)
 	# Enable collision detection
 	collision_detector.monitoring = true
 	
@@ -220,7 +230,7 @@ func _is_valid_drop_position(hex_pos: Vector2i) -> bool:
 	if game_manager and game_manager.has_method("is_valid_play_position"):
 		return game_manager.is_valid_play_position(card_ref, hex_pos)
 
-	return true
+	return false
 
 func _return_to_hand():
 	if not card_ref:
@@ -249,7 +259,7 @@ func _animate_return_to_hand(target_position: Vector2):
 	
 	# Animate position
 	position_tween.tween_property(card_ref, "global_position", target_position, 0.3)
-	position_tween.tween_property(card_ref, "rotation", 0.0, 0.3)
+	position_tween.tween_property(card_ref, "rotation", original_rotation, 0.3)
 	
 	# Reset scale
 	_animate_scale(original_scale)
@@ -274,17 +284,20 @@ func _animate_scale(target_scale: Vector2):
 	
 	scale_tween = create_tween()
 	scale_tween.tween_property(card_ref, "scale", target_scale, 0.2)
+	
 
 func _on_collision_area_entered(area: Area2D):
 	# Check if it's another card's drag handler
 	var other_card = area.get_parent() as Card
 	if other_card and other_card != card_ref:
+		
 		collision_bodies.append(other_card)
 		collision_detected.emit(other_card)
 
 func _on_collision_area_exited(area: Area2D):
 	var other_card = area.get_parent() as Card
 	if other_card and other_card in collision_bodies:
+		
 		collision_bodies.erase(other_card)
 
 func set_hand_reference(hand: HandManager):
@@ -387,6 +400,8 @@ func _process(delta):
 		_clean_invalid_collisions()
 		_update_collision_priorities()
 	else:
+		_update_visual_feedback()
+
 		_apply_momentum(delta)
 	
 	# Trigger redraw for debug visualization

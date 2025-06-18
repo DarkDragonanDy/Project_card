@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=4 uid="uid://bow8thkqjeif0"]
 
-[ext_resource type="Script" uid="uid://cmughckqkngrv" path="res://Scripts/Battle_scripts/Game_manager.gd" id="1_ddmmf"]
+[ext_resource type="Script" uid="uid://cmughckqkngrv" path="res://Scripts/Battle_scripts/GameSetupCoordinator.gd" id="1_ddmmf"]
 [ext_resource type="Texture2D" uid="uid://ckcqoxchk4w0c" path="res://Sprites/Tiles/cropped-image-85ui-3.png" id="1_dfds4"]
 [ext_resource type="Texture2D" uid="uid://on5bdvuw4nq5" path="res://Sprites/Tiles/cropped-image-99wl-4.png" id="2_ddmmf"]
 [ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_dr1m7"]

@@ -5,8 +5,8 @@ class_name HandManager
 const MAX_HAND_SIZE: int = 7
 const CARD_SPACING: float = 100.0
 const HAND_ARC_RADIUS: float = 800.0
-const HAND_Y_OFFSET: float = 100.0
-const DRAW_ANIMATION_DURATION: float = 0.5
+const HAND_Y_OFFSET: float = 40.0
+const DRAW_ANIMATION_DURATION: float = 0.2
 
 # Hand state
 var cards_in_hand: Array[Card] = []
@@ -55,6 +55,7 @@ func add_card_to_hand(card: Card) -> bool:
 	
 	# Animate card into position
 	_animate_card_to_hand(card)
+	_animate_hand_layout()
 	
 	card_drawn.emit(card)
 	print("Card added to hand: ", card.card_name, " (", cards_in_hand.size(), "/", MAX_HAND_SIZE, ")")
@@ -186,6 +187,7 @@ func get_card_hand_position(card: Card) -> Vector2:
 func get_card_hand_index(card: Card) -> int:
 	return cards_in_hand.find(card)
 
+######################
 func lock_hand(locked: bool):
 	is_hand_locked = locked
 	for card in cards_in_hand:
@@ -206,7 +208,10 @@ func _set_card_highlight(card: Card, highlighted: bool):
 func _on_card_played(card: Card, hex_position: Vector2i):
 	remove_card_from_hand(card)
 	card_played.emit(card, hex_position)
+##########################################
 
+
+####################################
 func _on_card_selected(card: Card):
 	# Bring selected card to front
 	var highest_z = 0
@@ -234,6 +239,7 @@ func _hide_card_preview():
 	# Hide card preview
 	pass
 
+##########################################
 func get_hand_size() -> int:
 	return cards_in_hand.size()
 
