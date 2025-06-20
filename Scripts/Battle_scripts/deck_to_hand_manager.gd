@@ -12,7 +12,8 @@ var cards_drawn: int = 0
 
 # References
 var hand_manager: HandManager
-var game_manager: Node2D
+var game_manager: Node
+var turn_manager: TurnManager
 
 # Signals
 signal card_ready_for_hand(card: Card)
@@ -22,7 +23,10 @@ signal deck_loaded
 func _ready():
 	# Get references
 	hand_manager = get_node_or_null("../Hand_manager")
-	game_manager = get_node_or_null("../Game_manager")
+	game_manager = get_node_or_null("../../Game_manager")
+	turn_manager = get_node_or_null("../../Turn_manager")
+	
+	
 	
 	if not hand_manager:
 		print("Error: HandManager not found!")
@@ -37,6 +41,7 @@ func _ready():
 	_load_deck_from_data()
 	await get_tree().create_timer(0.5).timeout  # Wait for scene setup
 	_draw_starting_hand()
+	await turn_manager.start_game()
 
 func _load_deck_from_data():
 	# Load deck from singleton

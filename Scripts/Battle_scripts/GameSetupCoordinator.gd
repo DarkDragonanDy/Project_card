@@ -8,16 +8,18 @@ class_name GameSetupCoordinator
 # References to game systems
 @onready var deck_to_hand_manager: DeckToHandManager = $Playable_lair/DeckToHand_manager
 @onready var hand_manager: HandManager = $Playable_lair/Hand_manager
-#@onready var game_manager: Node = $Game_manager
-
+@onready var game_manager: Node = $Game_manager
+@onready var turn_manager: TurnManager = $Turn_manager
+#@onready var play_event_manager: PlayEventManager = $PlayEventManager
 # Setup state
 var is_setup_complete: bool = false
 var setup_steps_completed: int = 0
-var total_setup_steps: int = 4
+var total_setup_steps: int = 5
 
 # Signals
 signal setup_complete
 signal setup_step_completed(step_name: String)
+signal game_ready_to_start
 
 func _ready():
 	print("=== Game Setup Starting ===")
@@ -40,7 +42,10 @@ func _initialize_game_systems():
 	await _wait_for_deck_initialization()
 	
 	# Step 5: Final setup
+	_initialize_turn_manager()
+	# Step 5: Final setup
 	_complete_setup()
+	
 
 func _validate_deck_data():
 	var deck_data = DeckData.get_deck()
@@ -74,6 +79,12 @@ func _connect_system_signals():
 			#hand_manager.card_played.connect(_on_card_played)
 		if hand_manager.has_signal("hand_full"):
 			hand_manager.hand_full.connect(_on_hand_full)
+			
+	if turn_manager:
+		turn_manager.game_started_signal.connect(_on_game_started)
+		turn_manager.turn_started.connect(_on_turn_started)
+		turn_manager.phase_changed.connect(_on_phase_changed)
+		turn_manager.turn_ended.connect(_on_turn_ended)
 	
 	print("✓ System signals connected")
 	_complete_setup_step("Signal Connection")
@@ -113,6 +124,22 @@ func _wait_for_deck_initialization():
 	
 	_complete_setup_step("Deck Initialization")
 
+func _start_game():
+	if turn_manager:
+		print("Starting first turn...")
+		turn_manager.start_game()
+	else:
+		print("Error: Cannot start game - TurnManager not found")
+		
+func _initialize_turn_manager():
+	if not turn_manager:
+		print("Error: TurnManager not found!")
+		return
+	
+	# Turn manager will connect to other systems in its _ready()
+	print("✓ Turn manager initialized")
+	_complete_setup_step("Turn Manager")
+
 func _complete_setup():
 	
 	# Final system checks
@@ -138,8 +165,11 @@ func _perform_final_checks():
 		issues.append("DeckToHandManager missing")
 	
 	# Check game manager
-	#if not game_manager:
-		#issues.append("GameManager missing")
+	if not game_manager:
+		issues.append("GameManager missing")
+	
+	if not turn_manager:
+		issues.append("TurnManager missing")
 	
 	if issues.is_empty():
 		print("✓ All systems operational")
@@ -158,82 +188,91 @@ func _show_error_message(message: String):
 	# For now, just print to console
 
 # Signal handlers
+func _on_game_started():
+	print("🎮 GAME STARTED!")
+	
+	# Update UI to show it's game time
+	# Enable/disable appropriate controls
+
+func _on_turn_started(player: int, turn: int):
+	print("🔄 Turn ", turn, " started for Player ", player)
+	
+	# Update UI to show current player and turn
+	# Could show turn indicator, highlight active player, etc.
+
+func _on_phase_changed(new_phase: TurnManager.GamePhase, player: int):
+	var phase_name = ""
+	match new_phase:
+		TurnManager.GamePhase.DRAW_PHASE:
+			phase_name = "Draw"
+		TurnManager.GamePhase.MAIN_PHASE:
+			phase_name = "Main"
+		TurnManager.GamePhase.END_PHASE:
+			phase_name = "End"
+	
+	print("📋 Phase changed to ", phase_name, " for Player ", player)
+	
+	# Update UI to show current phase
+	# Enable/disable appropriate game actions
+
+func _on_turn_ended(player: int):
+	print("⏹ Turn ended for Player ", player)
+
+# Existing signal handlers
 func _on_deck_loaded():
 	print("Deck loaded successfully")
 
 func _on_deck_empty():
 	print("Deck is now empty!")
-	# Handle end game condition or deck refill
 
 func _on_card_drawn(card: Card):
 	print("Card drawn: ", card.card_name)
 	
-	# Set up card with hand manager reference
+	# Set up card with proper references
 	if hand_manager:
 		card.set_hand_manager(hand_manager)
 
-#func _on_card_played(card: Card, hex_position: Vector2i):
-	#print("Card played: ", card.card_name, " at position: ", hex_position)
-	#
-	## Handle card play logic
-	#if game_manager and game_manager.has_method("handle_card_played"):
-		#game_manager.handle_card_played(card, hex_position)
+func _on_card_played(card: Card, hex_position: Vector2i):
+	print("Card played: ", card.card_name, " at position: ", hex_position)
+	
+	# The play event manager will handle the actual play logic
+
+func _on_card_play_executed(play_event):
+	print("Card play executed: ", play_event.card.card_name)
+	
+	# Could trigger UI updates, sound effects, etc.
 
 func _on_hand_full():
 	print("Hand is full - cannot draw more cards")
 
-
-
-# Public methods for external systems
+# Public methods
 func is_game_ready() -> bool:
 	return is_setup_complete
 
 func get_setup_progress() -> float:
 	return float(setup_steps_completed) / float(total_setup_steps)
 
-func force_draw_card() -> bool:
-	if deck_to_hand_manager:
-		return await deck_to_hand_manager.force_draw_card()
-	return false
-
-func get_hand_cards() -> Array[Card]:
-	if hand_manager:
-		return hand_manager.get_cards_in_hand()
-	return []
-
-func get_deck_size() -> int:
-	if deck_to_hand_manager:
-		return deck_to_hand_manager.get_deck_size()
-	return 0
-
-
-
-
-# Debug functions
-func print_game_state():
-	print("=== Game State ===")
-	print("Setup complete: ", is_setup_complete)
-	print("Setup progress: ", get_setup_progress() * 100, "%")
-	
-	if hand_manager:
-		hand_manager.print_hand_state()
-	
-	if deck_to_hand_manager:
-		deck_to_hand_manager.print_deck_state()
-
 # Input handling for testing
 func _input(event):
 	if not is_setup_complete:
 		return
 	
-	# Debug controls (remove in production)
-	if event.is_action_pressed("ui_accept"):  # Space
-		if Input.is_action_pressed("ui_select"):  #Space
-			print_game_state()
-			force_draw_card()
-		
-		
+	# Debug controls
+	if event.is_action_pressed("ui_home"):  # Home key
+		print_game_state()
+
+func print_game_state():
+	print("=== Game Setup State ===")
+	print("Setup complete: ", is_setup_complete)
+	print("Setup progress: ", get_setup_progress() * 100, "%")
 	
-	elif event.is_action_pressed("ui_cancel"):  # Escape
-		print("Game state reset requested")
-		# Could implement game reset here
+	if turn_manager:
+		
+		turn_manager.print_game_state()
+	
+	if hand_manager:
+	
+		hand_manager.print_hand_state()
+	
+	if deck_to_hand_manager:
+		deck_to_hand_manager.print_deck_state()

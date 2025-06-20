@@ -163,7 +163,7 @@ func _start_drag():
 	original_z_index = card_ref.z_index
 	original_position = card_ref.global_position
 	original_rotation=card_ref.rotation
-	print(original_rotation)
+	
 	
 	if hand_manager:
 		original_position = hand_manager.get_card_hand_position(card_ref)

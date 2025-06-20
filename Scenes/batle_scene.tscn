@@ -1,13 +1,18 @@
-[gd_scene load_steps=16 format=4 uid="uid://bow8thkqjeif0"]
+[gd_scene load_steps=22 format=4 uid="uid://bow8thkqjeif0"]
 
 [ext_resource type="Script" uid="uid://cmughckqkngrv" path="res://Scripts/Battle_scripts/GameSetupCoordinator.gd" id="1_ddmmf"]
 [ext_resource type="Texture2D" uid="uid://ckcqoxchk4w0c" path="res://Sprites/Tiles/cropped-image-85ui-3.png" id="1_dfds4"]
 [ext_resource type="Texture2D" uid="uid://on5bdvuw4nq5" path="res://Sprites/Tiles/cropped-image-99wl-4.png" id="2_ddmmf"]
+[ext_resource type="Script" uid="uid://sect1ube17ko" path="res://Scripts/Battle_scripts/game_manager.gd" id="2_vs4tl"]
+[ext_resource type="Script" uid="uid://to1vrgj640xc" path="res://Scripts/Battle_scripts/turn_manager.gd" id="3_7hkq8"]
 [ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_dr1m7"]
+[ext_resource type="Script" uid="uid://bkanc5l2e7hjo" path="res://Scripts/Battle_scripts/economy_manager.gd" id="4_olq85"]
 [ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="4_vs4tl"]
 [ext_resource type="Script" uid="uid://cqu2h4dcj2ynx" path="res://Scripts/Battle_scripts/Hand_Manger.gd" id="5_7hkq8"]
 [ext_resource type="Script" uid="uid://x7auran8vctc" path="res://Scripts/Battle_scripts/deck_to_hand_manager.gd" id="6_dfds4"]
 [ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit_collection.gd" id="6_olq85"]
+[ext_resource type="Script" uid="uid://dmf2uekpm530q" path="res://Scripts/Battle_scripts/wealth_display.gd" id="10_bl8um"]
+[ext_resource type="Script" uid="uid://4m1c0safmv2j" path="res://Scripts/Battle_scripts/business_cards_manager.gd" id="12_bl8um"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mvbrm"]
 texture = ExtResource("1_dfds4")
@@ -47,10 +52,19 @@ sources/12 = SubResource("TileSetAtlasSource_ep4rr")
 sources/13 = SubResource("TileSetAtlasSource_ls15t")
 tile_proxies/coords_level = [[5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vector2i(0, 0)], [8, Vector2i(1, 0)]]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_vs4tl"]
+
 [node name="Battle_scene" type="Node2D"]
 script = ExtResource("1_ddmmf")
 
 [node name="Game_manager" type="Node" parent="."]
+script = ExtResource("2_vs4tl")
+
+[node name="Turn_manager" type="Node" parent="."]
+script = ExtResource("3_7hkq8")
+
+[node name="Economy_manager" type="Node" parent="."]
+script = ExtResource("4_olq85")
 
 [node name="Control_lair" type="Control" parent="."]
 layout_mode = 3
@@ -111,7 +125,7 @@ mouse_filter = 1
 color = Color(0.69065, 0.625067, 0.54425, 1)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="Control_lair/Game_UI/GridContainer/Game_board"]
-position = Vector2(361, 140)
+position = Vector2(324, 140)
 scale = Vector2(0.045, 0.045)
 tile_map_data = PackedByteArray("AAD/////DQAAAAAAAAABAP7/DQAAAAAAAAAAAP7/DQAAAAAAAAAAAP//DQAAAAAAAAABAP//DQAAAAAAAAAAAAAADQAAAAAAAAD//wAADQAAAAAAAAAAAAEADQAAAAAAAAABAAAADQAAAAAAAAABAAEACAAAAAAAAAACAAEADQAAAAAAAAACAAAADQAAAAAAAAABAAIADQAAAAAAAAABAP3/DQAAAAAAAAAAAAIADQAAAAAAAAD//wEADQAAAAAAAAD9/wAADQAAAAAAAAD+/wAADQAAAAAAAAD+////DQAAAAAAAAD///7/DQAAAAAAAAD8/wAADQAAAAAAAAD9////DQAAAAAAAAD9//7/DQAAAAAAAAD+//7/DQAAAAAAAAD///3/DQAAAAAAAAAAAP3/DQAAAAAAAAD+//3/DQAAAAAAAAD9//3/DQAAAAAAAAD8//7/DQAAAAAAAAD8////DQAAAAAAAAD7////DQAAAAAAAAACAP3/DQAAAAAAAAACAP7/DQAAAAAAAAACAP//DQAAAAAAAAD+/wEACAAAAAAAAAABAPz/DQAAAAAAAAABAAMADQAAAAAAAAAAAAMADQAAAAAAAAACAAIADQAAAAAAAAADAAAADQAAAAAAAAD+/wIADQAAAAAAAAACAAMADQAAAAAAAAD7//7/DQAAAAAAAAADAAEADQAAAAAAAAADAAIADQAAAAAAAAAEAAIADQAAAAAAAAAEAAEADQAAAAAAAAADAP//DQAAAAAAAAAEAAAADQAAAAAAAAAEAP//DQAAAAAAAAADAP7/DQAAAAAAAAADAP3/DQAAAAAAAAAEAP3/DQAAAAAAAAAEAP7/DQAAAAAAAAADAPz/DQAAAAAAAAD//wIADQAAAAAAAAAFAP7/DQAAAAAAAAAFAP//DQAAAAAAAAA=")
 tile_set = SubResource("TileSet_4a4nb")
@@ -146,6 +160,211 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("6_olq85")
 
+[node name="Right_info_display" type="Control" parent="Control_lair/Game_UI"]
+anchors_preset = 0
+offset_left = 622.0
+offset_top = 80.0
+offset_right = 720.0
+offset_bottom = 400.0
+script = ExtResource("10_bl8um")
+
+[node name="Turn_space" type="Control" parent="Control_lair/Game_UI/Right_info_display"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -39.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TurnIcon" type="TextureRect" parent="Control_lair/Game_UI/Right_info_display/Turn_space"]
+modulate = Color(0.554575, 0.362365, 0.0695199, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_vs4tl")
+
+[node name="Turns" type="Label" parent="Control_lair/Game_UI/Right_info_display/Turn_space"]
+layout_mode = 1
+offset_right = 20.0
+offset_bottom = 23.0
+text = "0"
+
+[node name="ProgressBar_compare" type="ProgressBar" parent="Control_lair/Game_UI/Right_info_display/Turn_space"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -13.5
+offset_right = 23.0
+offset_bottom = 13.5
+grow_vertical = 2
+
+[node name="Label_1" type="Label" parent="Control_lair/Game_UI/Right_info_display/Turn_space"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -53.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "turns"
+
+[node name="Label_2" type="Label" parent="Control_lair/Game_UI/Right_info_display/Turn_space"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "percent"
+
+[node name="End_Turn" type="Button" parent="Control_lair/Game_UI/Right_info_display/Turn_space"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "End_Turn"
+
+[node name="Player_wealth_display" type="Control" parent="Control_lair/Game_UI/Right_info_display"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="WealthIcon" type="TextureRect" parent="Control_lair/Game_UI/Right_info_display/Player_wealth_display"]
+modulate = Color(0.554575, 0.362365, 0.0695199, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_vs4tl")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Player_income" type="Label" parent="Control_lair/Game_UI/Right_info_display/Player_wealth_display"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 20.0
+grow_vertical = 0
+text = "40"
+
+[node name="Player_wealth" type="Label" parent="Control_lair/Game_UI/Right_info_display/Player_wealth_display"]
+layout_mode = 1
+offset_right = 25.0
+offset_bottom = 23.0
+text = "40"
+
+[node name="Label_1" type="Label" parent="Control_lair/Game_UI/Right_info_display/Player_wealth_display"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -53.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "wealth"
+
+[node name="Label_2" type="Label" parent="Control_lair/Game_UI/Right_info_display/Player_wealth_display"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "income"
+
+[node name="Opponent_wealth_display" type="Control" parent="Control_lair/Game_UI/Right_info_display"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 42.0
+grow_horizontal = 2
+
+[node name="WealthIcon" type="TextureRect" parent="Control_lair/Game_UI/Right_info_display/Opponent_wealth_display"]
+modulate = Color(0.554575, 0.362365, 0.0695199, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_vs4tl")
+expand_mode = 2
+
+[node name="Player_income" type="Label" parent="Control_lair/Game_UI/Right_info_display/Opponent_wealth_display"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 20.0
+grow_vertical = 0
+text = "40"
+
+[node name="Player_wealth" type="Label" parent="Control_lair/Game_UI/Right_info_display/Opponent_wealth_display"]
+layout_mode = 1
+offset_right = 25.0
+offset_bottom = 23.0
+text = "40"
+
+[node name="Label_1" type="Label" parent="Control_lair/Game_UI/Right_info_display/Opponent_wealth_display"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -53.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "wealth"
+
+[node name="Label_2" type="Label" parent="Control_lair/Game_UI/Right_info_display/Opponent_wealth_display"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "income"
+
+[node name="Player_UI" type="Control" parent="Control_lair/Game_UI"]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 46.0
+offset_bottom = 43.0
+
 [node name="Playable_lair" type="Node2D" parent="."]
 
 [node name="DeckToHand_manager" type="Node" parent="Playable_lair"]
@@ -153,5 +372,8 @@ script = ExtResource("6_dfds4")
 
 [node name="Hand_manager" type="Node2D" parent="Playable_lair"]
 script = ExtResource("5_7hkq8")
+
+[node name="BusinessCards_manager" type="Node2D" parent="Playable_lair"]
+script = ExtResource("12_bl8um")
 
 [connection signal="pressed" from="Control_lair/Game_UI/Exit/Button" to="Control_lair/Game_UI/Exit/Button" method="_on_pressed"]
