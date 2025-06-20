@@ -3,10 +3,10 @@ class_name HandManager
 
 # Hand configuration
 const MAX_HAND_SIZE: int = 7
-const CARD_SPACING: float = 100.0
+const CARD_SPACING: float = 80.0
 const HAND_ARC_RADIUS: float = 800.0
 const HAND_Y_OFFSET: float = 40.0
-const DRAW_ANIMATION_DURATION: float = 0.2
+const DRAW_ANIMATION_DURATION: float = 0.1
 
 # Hand state
 var cards_in_hand: Array[Card] = []
@@ -163,8 +163,7 @@ func _animate_card_to_hand(card: Card):
 	card.z_index = target_index
 
 func _animate_hand_layout():
-	if is_hand_locked:
-		return
+	
 	
 	for i in range(cards_in_hand.size()):
 		var card = cards_in_hand[i]

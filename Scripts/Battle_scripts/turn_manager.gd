@@ -8,6 +8,8 @@ enum GamePhase {
 	END_PHASE
 }
 
+
+
 # Player management
 var current_player: int = 1
 var total_players: int = 2
@@ -24,9 +26,12 @@ var game_started: bool = false
 var game_paused: bool = false
 
 # References to other systems
-var hand_manager: HandManager
-var deck_manager: DeckToHandManager
-#var play_event_manager: PlayEventManager
+@onready var hand_manager: HandManager =$"../Playable_lair/Hand_manager"
+@onready var deck_manager: DeckToHandManager =$"../Playable_lair/DeckToHand_manager"
+
+#@onready var end_turn_button: Button = $"../Control_lair/Game_UI/Right_info_display/Turn_space/End_Turn"
+
+
 
 # Turn timer (for online play preparation)
 var turn_timer: float = 0.0
@@ -48,17 +53,14 @@ func _ready():
 	_connect_to_systems()
 
 func _connect_to_systems():
-	# Get references to other game systems
-	hand_manager = get_node_or_null("../Playable_lair/Hand_manager")
-	deck_manager = get_node_or_null("../Playable_lair/DeckToHand_manager")
-	#play_event_manager = get_node_or_null("../PlayEventManager")
+	#end_turn_button.pressed.connect(await advance_to_end_phase())
 	
 	if not hand_manager:
 		print("Warning: HandManager not found in TurnManager")
 	if not deck_manager:
 		print("Warning: DeckToHandManager not found in TurnManager")
-	#if not play_event_manager:
-	#	print("Warning: PlayEventManager not found in TurnManager")
+	
+	
 
 func _process(delta):
 	if is_timer_active and not game_paused:
@@ -69,26 +71,13 @@ func _process(delta):
 			_on_turn_timer_expired()
 
 # Called from GameSetupCoordinator when everything is ready
-func start_game():
-	if game_started:
-		print("Game already started!")
-		return
-	
-	print("=== GAME STARTING ===")
-	game_started = true
-	current_player = 1
-	current_turn = 1
-	
-	game_started_signal.emit()
-	
-	# Start the first turn
-	start_turn()
 
-func start_turn():
-	if not game_started:
-		print("Cannot start turn: Game not started")
-		return
 	
+
+func start_turn(player: int, turn: int):
+	
+	current_turn=turn
+	current_player=player
 	print("=== Turn ", current_turn, " - Player ", current_player, " ===")
 	current_phase = GamePhase.DRAW_PHASE
 	
@@ -164,6 +153,8 @@ func _process_end_phase():
 	end_turn()
 
 
+	
+
 
 # Manual phase advancement (for player input)
 func try_advance_phase():
@@ -233,6 +224,7 @@ func extend_turn_timer(additional_seconds: float):
 	turn_timer += additional_seconds
 	print("Turn timer extended by ", additional_seconds, " seconds")
 
+
 # Game control
 func pause_game():
 	game_paused = true
@@ -277,12 +269,9 @@ func end_turn():
 	print("Turn ", current_turn, " ended for Player ", current_player)
 	turn_ended.emit(current_player)  # <-- Signal is emitted here
 
+	
 	# Switch to next player
-	current_player = (current_player % total_players) + 1
-
-	# Increment turn counter when it comes back to player 1
-	if current_player == 1:
-		current_turn += 1
+	
 # Debug functions
 func print_game_state():
 	print("=== Turn Manager State ===")

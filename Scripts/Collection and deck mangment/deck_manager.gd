@@ -42,6 +42,7 @@ func _ready():
 	
 func _on_collection_loaded():
 	load_deck()
+	
 func add_card(collection_index: int):
 	# Check if deck is full
 	if current_card_count >= max_cards:

@@ -33,15 +33,16 @@ func _ready():
 		return
 	
 	# Connect signals
-	if hand_manager.hand_full.is_connected(_on_hand_full):
-		hand_manager.hand_full.disconnect(_on_hand_full)
+	
 	hand_manager.hand_full.connect(_on_hand_full)
+	game_manager.game_started_signal.connect(_load_deck_from_data)
+	
 	
 	# Load and initialize deck
-	_load_deck_from_data()
-	await get_tree().create_timer(0.5).timeout  # Wait for scene setup
-	_draw_starting_hand()
-	await turn_manager.start_game()
+	
+	  # Wait for scene setup
+	
+	
 
 func _load_deck_from_data():
 	# Load deck from singleton
@@ -69,7 +70,6 @@ func _draw_starting_hand():
 	print("Drawing starting hand...")
 	
 	for i in range(STARTING_HAND_SIZE):
-		await get_tree().create_timer(DRAW_DELAY).timeout
 		var success = await draw_card()
 		if not success:
 			print("Failed to draw card ", i + 1, " for starting hand")
@@ -78,6 +78,7 @@ func _draw_starting_hand():
 	print("Starting hand drawn. Cards in deck: ", player_deck.size())
 
 func draw_card() -> bool:
+	await get_tree().create_timer(DRAW_DELAY).timeout
 	if player_deck.is_empty():
 		print("Cannot draw card: Deck is empty!")
 		deck_empty.emit()

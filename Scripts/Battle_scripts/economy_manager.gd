@@ -22,6 +22,7 @@ func add_income_source(player: int, income_boost: int):
 	income_changed.emit(player, player_income[player - 1])
 
 func process_turn_income(player: int):
+	print("dddd")
 	var income = player_income[player - 1]
 	player_wealth[player - 1] += income
 	wealth_history[player - 1].append(player_wealth[player - 1])

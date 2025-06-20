@@ -5,6 +5,7 @@ class_name GameSetupCoordinator
 # This script coordinates the initialization of all game systems
 # Attach this to your main game scene
 
+
 # References to game systems
 @onready var deck_to_hand_manager: DeckToHandManager = $Playable_lair/DeckToHand_manager
 @onready var hand_manager: HandManager = $Playable_lair/Hand_manager
@@ -16,10 +17,12 @@ var is_setup_complete: bool = false
 var setup_steps_completed: int = 0
 var total_setup_steps: int = 5
 
+
 # Signals
 signal setup_complete
 signal setup_step_completed(step_name: String)
 signal game_ready_to_start
+
 
 func _ready():
 	print("=== Game Setup Starting ===")
@@ -29,22 +32,19 @@ func _initialize_game_systems():
 	# Step 1: Validate deck data
 	_validate_deck_data()
 	
-	# Step 3: Initialize hand manager
-	_initialize_hand_manager()
-	
 	# Step 2: Connect system signals
 	_connect_system_signals()
 	
+	setup_complete.emit()
 	
 	
 	
-	# Step 4: Wait for deck loading and hand drawing
-	await _wait_for_deck_initialization()
 	
-	# Step 5: Final setup
-	_initialize_turn_manager()
-	# Step 5: Final setup
-	_complete_setup()
+	
+	#_complete_setup()
+	
+	game_ready_to_start.emit()
+	
 	
 
 func _validate_deck_data():
@@ -81,22 +81,15 @@ func _connect_system_signals():
 			hand_manager.hand_full.connect(_on_hand_full)
 			
 	if turn_manager:
-		turn_manager.game_started_signal.connect(_on_game_started)
 		turn_manager.turn_started.connect(_on_turn_started)
 		turn_manager.phase_changed.connect(_on_phase_changed)
 		turn_manager.turn_ended.connect(_on_turn_ended)
+	if game_manager:
+		game_manager.game_started_signal.connect(_on_game_started)
 	
 	print("✓ System signals connected")
 	_complete_setup_step("Signal Connection")
 
-func _initialize_hand_manager():
-	if not hand_manager:
-		print("Error: HandManager not found!")
-		return
-	
-	# Set up hand manager with proper references
-	print("✓ Hand manager initialized")
-	_complete_setup_step("Hand Manager")
 
 func _wait_for_deck_initialization():
 	# Wait for deck to load and starting hand to be drawn
@@ -124,21 +117,8 @@ func _wait_for_deck_initialization():
 	
 	_complete_setup_step("Deck Initialization")
 
-func _start_game():
-	if turn_manager:
-		print("Starting first turn...")
-		turn_manager.start_game()
-	else:
-		print("Error: Cannot start game - TurnManager not found")
-		
-func _initialize_turn_manager():
-	if not turn_manager:
-		print("Error: TurnManager not found!")
-		return
-	
-	# Turn manager will connect to other systems in its _ready()
-	print("✓ Turn manager initialized")
-	_complete_setup_step("Turn Manager")
+
+
 
 func _complete_setup():
 	
