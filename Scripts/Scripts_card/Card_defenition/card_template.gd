@@ -18,6 +18,8 @@ static var card_scene = preload("res://Scenes/card_template.tscn")
 @onready var art_box = $Card_visuals/Card_art
 @onready var name_label = $Card_visuals/Card_box_name/Card_text_name
 
+var card_preview: CardPreview
+
 # Card functional children - Updated to use new drag handler
 @onready var drag_handler: AntiStackingDragHandler = $Drag_handler
 @onready var data_node: Node = $Card_data
@@ -44,6 +46,7 @@ func _ready():
 		drag_handler.set_card_reference(self)
 	if state_manager and state_manager.has_method("set_card_reference"):
 		state_manager.set_card_reference(self)
+	_setup_card_preview()
 
 func update_card_display():
 	if is_instance_valid(name_label):
@@ -176,3 +179,18 @@ static func generate_card_texture(name: String, desc: String, cost: int, art_tex
 
 func get_texture() -> ImageTexture:
 	return await Card.generate_card_texture(card_name, card_description, card_cost, card_art)
+	
+	
+func _setup_card_preview():
+	# Wait for the scene tree to be completely ready
+	await get_tree().process_frame
+	await get_tree().process_frame  # Wait an extra frame to be safe
+
+	# Create preview system
+	card_preview = preload("res://Scripts/Scripts_card/Card_defenition/card_preview.gd").new()
+
+	# Add to main scene 
+	var main_scene = get_tree().current_scene
+	if main_scene:
+		main_scene.add_child(card_preview)
+		card_preview.setup_preview_for_card(self)
