@@ -11,7 +11,8 @@ class_name GameSetupCoordinator
 @onready var hand_manager: HandManager = $Playable_lair/Hand_manager
 @onready var game_manager: Node = $Game_manager
 @onready var turn_manager: TurnManager = $Turn_manager
-#@onready var play_event_manager: PlayEventManager = $PlayEventManager
+@onready var card_play_manager: CardPlayManager = $"card_play_manager"
+
 # Setup state
 var is_setup_complete: bool = false
 var setup_steps_completed: int = 0

@@ -23,6 +23,7 @@ signal card_played(card: Card, hex_position: Vector2i)
 signal hand_full
 signal hand_empty
 
+@onready var play_manager: CardPlayManager = get_node_or_null("../../card_play_manager")
 func _ready():
 	screen_size = get_viewport().get_visible_rect().size
 	hand_center = Vector2(screen_size.x / 2, screen_size.y - HAND_Y_OFFSET)
@@ -204,9 +205,16 @@ func _set_card_highlight(card: Card, highlighted: bool):
 	else:
 		card.modulate = Color(0.7, 0.7, 0.7, 1.0)
 
+
+
 func _on_card_played(card: Card, hex_position: Vector2i):
-	remove_card_from_hand(card)
-	card_played.emit(card, hex_position)
+	# Try to play on hex through play manager
+	if play_manager and play_manager.play_card(card, hex_position):
+		remove_card_from_hand(card)
+		card_played.emit(card, hex_position)
+	else:
+		# Return to hand if play failed
+		print("Failed to play card on hex")
 ##########################################
 
 

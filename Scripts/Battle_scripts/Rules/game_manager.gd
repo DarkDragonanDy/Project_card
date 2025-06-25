@@ -23,7 +23,7 @@ var max_turns: int = 10
 
 # References gloabal systems
 @onready var turn_manager: TurnManager=$"../Turn_manager"
-@onready var business_cards_manager: BusinessCardsManager=$"../Playable_lair/BusinessCards_manager"
+
 @onready var economy_manager: EconomyManager = $"../Economy_manager"
 @onready var setup: GameSetupCoordinator = $".."
 @onready var deck_to_hand: DeckToHandManager = $"../Playable_lair/DeckToHand_manager"

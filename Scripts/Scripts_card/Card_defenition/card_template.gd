@@ -11,6 +11,18 @@ static var card_scene = preload("res://Scenes/card_template.tscn")
 @export var card_unique_id: String = ""
 @export var card_art: Texture2D = null
 
+
+@export var income_per_turn: int = 0
+@export var special_effects: Array[String] = []
+
+@export var tile_source_id: int = 0  # Which source in tileset
+@export var tile_atlas_coords: Vector2i = Vector2i(0, 0)  # Position in atlas
+
+var collection_texture: ImageTexture  
+var hex_representation: Node2D 
+var card_preview: CardPreview
+
+
 # Card visual children
 @onready var card_back: Sprite2D = $Card_visuals/Card_back
 @onready var text_box = $Card_visuals/Card_box_text/Card_text_box
@@ -18,7 +30,7 @@ static var card_scene = preload("res://Scenes/card_template.tscn")
 @onready var art_box = $Card_visuals/Card_art
 @onready var name_label = $Card_visuals/Card_box_name/Card_text_name
 
-var card_preview: CardPreview
+
 
 # Card functional children - Updated to use new drag handler
 @onready var drag_handler: AntiStackingDragHandler = $Drag_handler
@@ -63,6 +75,10 @@ func apply_card_data(data: Card):
 	card_description = data.card_description
 	card_cost = data.card_cost
 	card_art = data.card_art
+	income_per_turn=data.income_per_turn
+	special_effects=data.special_effects
+	tile_source_id=data.tile_source_id
+	tile_atlas_coords=data.tile_atlas_coords
 	update_card_display()
 
 func _connect_component_signals():
@@ -180,7 +196,20 @@ static func generate_card_texture(name: String, desc: String, cost: int, art_tex
 func get_texture() -> ImageTexture:
 	return await Card.generate_card_texture(card_name, card_description, card_cost, card_art)
 	
-	
+
+
+func on_play(game_state: Dictionary) -> void:
+	# Override in subclasses
+	pass
+
+func on_turn_start(game_state: Dictionary) -> void:
+	# Override in subclasses
+	pass
+
+func on_remove(game_state: Dictionary) -> void:
+	# Override in subclasses
+	pass
+
 func _setup_card_preview():
 	# Wait for the scene tree to be completely ready
 	await get_tree().process_frame

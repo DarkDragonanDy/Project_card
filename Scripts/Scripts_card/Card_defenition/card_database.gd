@@ -3,16 +3,15 @@ var card_database = {
 	"Meadow": Meadow_Card,
 	"iceball": IceballCard,
 	"Fishing Place": FishingPlace_Card,
+	"Wheat Field": WheatFieldCard,
 }
 var card_scene = Card.new().card_scene
 func create_card_instance(template_name: String) -> Card:
 	if template_name in card_database:
 		# Create visual instance from template
 		var card_instance = card_scene.instantiate()
-		
 		# Create data instance from class
 		var data_instance = card_database[template_name].new()
-		
 		# Copy data to visual instance
 		card_instance.apply_card_data(data_instance)
 		
@@ -30,4 +29,5 @@ func art_capture(template_name: String):
 		data_instance.card_cost,
 		data_instance.card_art  
 	)
+	data_instance.queue_free()
 	return texture

@@ -80,7 +80,6 @@ func _enter_hand_state():
 func _enter_played_state():
 	var card = get_parent()
 	if card.has_node("Drag_handler"):
-		print("pass")
 		card.get_node("Drag_handler").input_pickable = false
 
 func _enter_graveyard_state():
