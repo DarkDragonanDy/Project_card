@@ -1,5 +1,10 @@
 extends Card
 class_name WheatFieldCard
+static var scene = preload("res://Scenes/card_template.tscn")
+static func create() -> WheatFieldCard:
+	var instance = scene.instantiate()
+	instance.set_script(preload("res://Scripts/Scripts_card/Scripts_card_types/Card_wheat_field.gd"))
+	return instance
 
 func _init():
 	card_name = "Wheat Field"
@@ -14,5 +19,6 @@ func _init():
 
 func on_play(game_state: Dictionary) -> void:
 	var economy_manager = get_node("/root/Battle_scene/Economy_manager")
+	print("sss")
 	if economy_manager:
-		economy_manager.add_income_source(game_state.current_player, income_per_turn)
+		economy_manager.add_income_source(game_state["player"], income_per_turn)

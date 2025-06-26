@@ -283,6 +283,7 @@ func _hide_preview():
 		# Remove after animation
 		await tween.finished
 		preview_card.queue_free()
+		
 		preview_card = null
 	
 	preview_hidden.emit(source_card)
