@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Card_game_project_test"
-run/main_scene="res://Scenes/node_scene.tscn"
+run/main_scene="uid://dh47y1vvktajk"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://Sprites/icon.svg"
 
@@ -19,11 +19,13 @@ config/icon="res://Sprites/icon.svg"
 
 CardDatabase="*res://Scripts/Scripts_card/Card_defenition/card_database.gd"
 DeckData="*res://Scripts/Collection and deck mangment/Deck_data.gd"
+PlayerDatabase="*res://Scripts/Player_setting/Player_database.gd"
 
 [display]
 
 window/size/viewport_width=720
 window/size/viewport_height=480
+window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 
 [rendering]

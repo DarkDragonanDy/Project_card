@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://27dk63qdjfix"]
 
 [ext_resource type="Script" uid="uid://cdki88re1bnhn" path="res://Scripts/menu_scene.gd" id="1_3prna"]
-[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit_collection.gd" id="2_kj18g"]
+[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/Player_setting/button_exit_menue.gd" id="2_kj18g"]
 
 [node name="Node_Menue" type="Control"]
 layout_mode = 3

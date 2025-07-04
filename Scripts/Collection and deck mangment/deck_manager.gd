@@ -91,38 +91,34 @@ func clear_deck():
 	save_deck()
 	
 func save_deck():
-	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
-	if file:
-		file.store_var(deck_data)
-		file.close()
-		print("Deck saved successfully")
+	# Используем DeckData вместо прямого сохранения
+	DeckData.current_deck = deck_data
+	DeckData.save_deck_to_file()
 
 func load_deck():
-	if FileAccess.file_exists(SAVE_PATH):
-		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
-		if file:
-			deck_data = file.get_var()
-			file.close()
-			
-			# Rebuild deck list from saved data
-			deck_list.clear()
-			current_card_count = 0
-			
-			for card in deck_data:
-				# Try to load the icon
-				var icon = null
-				
-				icon = collection_list.get_item_icon(card["collection_index"])
-				
-				
-				
-				deck_list.add_item(collection_list.get_item_text(card["collection_index"]), icon)
-				
-				
-				current_card_count += 1
-			
-			_update_deck_display()
-			print("Deck loaded successfully")
+	# Загружаем из DeckData
+	DeckData.load_user_deck()
+	deck_data = DeckData.current_deck
+	
+	deck_list.clear()
+	current_card_count = 0
+	
+	for card in deck_data:
+		# Try to load the icon
+		var icon = null
+		
+		icon = collection_list.get_item_icon(card["collection_index"])
+		
+		
+		
+		deck_list.add_item(collection_list.get_item_text(card["collection_index"]), icon)
+		
+		
+		current_card_count += 1
+	
+	_update_deck_display()
+	print("Deck loaded successfully")
+
 
 # Get deck data for transferring to game scene
 func get_deck_data() -> Array:

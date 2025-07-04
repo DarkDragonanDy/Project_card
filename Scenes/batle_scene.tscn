@@ -6,10 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_dr1m7"]
 [ext_resource type="Script" uid="uid://bkanc5l2e7hjo" path="res://Scripts/Battle_scripts/Rules/economy_manager.gd" id="4_olq85"]
 [ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="4_vs4tl"]
-[ext_resource type="Script" uid="uid://cqu2h4dcj2ynx" path="res://Scripts/Battle_scripts/Player/Hand_Manger.gd" id="5_7hkq8"]
+[ext_resource type="Script" uid="uid://cqu2h4dcj2ynx" path="res://Scripts/Battle_scripts/Player_folder/Hand_Manger.gd" id="5_7hkq8"]
 [ext_resource type="Script" uid="uid://c7ateak3pcpm3" path="res://Scripts/Battle_scripts/Rules/card_play_manager.gd" id="5_olq85"]
-[ext_resource type="Script" uid="uid://x7auran8vctc" path="res://Scripts/Battle_scripts/Player/deck_to_hand_manager.gd" id="6_dfds4"]
-[ext_resource type="Script" uid="uid://bhu2p4f22o6re" path="res://Scripts/button_exit_collection.gd" id="6_olq85"]
+[ext_resource type="Script" uid="uid://x7auran8vctc" path="res://Scripts/Battle_scripts/Player_folder/deck_to_hand_manager.gd" id="6_dfds4"]
+[ext_resource type="Script" uid="uid://bmdgte2fiukg6" path="res://Scripts/Player_setting/button_menue.gd" id="8_7hkq8"]
 [ext_resource type="Script" uid="uid://cfnf8oheaowdu" path="res://Scripts/Battle_scripts/Rules/hex_interaction_handler.gd" id="11_7hkq8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ls15t"]
@@ -143,7 +143,7 @@ modulate = Color(0.746045, 0, 0.0358365, 1)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("6_olq85")
+script = ExtResource("8_7hkq8")
 
 [node name="Right_info_display" type="Control" parent="Control_lair/Game_UI"]
 anchors_preset = 0
