@@ -3,7 +3,7 @@ extends Card
 static var scene = preload("res://Scenes/card_template.tscn")
 static func create() -> IceballCard:
 	var instance = scene.instantiate()
-	instance.set_script(preload("res://Scripts/Scripts_card/Scripts_card_types/Card_Iceball.gd"))
+	instance.set_script(preload("res://Scripts/Client/Scripts_card/Scripts_card_types/Card_Iceball.gd"))
 	return instance
 	
 func _init():

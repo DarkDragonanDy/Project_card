@@ -3,7 +3,7 @@ class_name WheatFieldCard
 static var scene = preload("res://Scenes/card_template.tscn")
 static func create() -> WheatFieldCard:
 	var instance = scene.instantiate()
-	instance.set_script(preload("res://Scripts/Scripts_card/Scripts_card_types/Card_wheat_field.gd"))
+	instance.set_script(preload("res://Scripts/Client/Scripts_card/Scripts_card_types/Card_wheat_field.gd"))
 	return instance
 
 func _init():

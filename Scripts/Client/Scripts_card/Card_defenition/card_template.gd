@@ -216,7 +216,7 @@ func _setup_card_preview():
 	await get_tree().process_frame  # Wait an extra frame to be safe
 
 	# Create preview system
-	card_preview = preload("res://Scripts/Scripts_card/Card_defenition/card_preview.gd").new()
+	card_preview = preload("res://Scripts/Client/Scripts_card/Card_defenition/card_preview.gd").new()
 
 	# Add to main scene 
 	var main_scene = get_tree().current_scene

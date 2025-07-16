@@ -59,7 +59,7 @@ func _end_hex_hover():
 
 func _show_generic_preview(card: Card):
 	# Create hover preview
-	hover_preview = preload("res://Scripts/Scripts_card/Card_defenition/card_preview.gd").new()
+	hover_preview = preload("res://Scripts/Client/Scripts_card/Card_defenition/card_preview.gd").new()
 	get_tree().current_scene.add_child(hover_preview)
 	hover_preview.setup_preview_for_card(card)
 	hover_preview._show_preview()

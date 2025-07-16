@@ -14,12 +14,17 @@ config/name="Card_game_project_test"
 run/main_scene="uid://dh47y1vvktajk"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://Sprites/icon.svg"
+run/main_run_args=""
+run/size/mode=0
+run/subwindows/embed_subwindows=true
 
 [autoload]
 
-CardDatabase="*res://Scripts/Scripts_card/Card_defenition/card_database.gd"
-DeckData="*res://Scripts/Collection and deck mangment/Deck_data.gd"
-PlayerDatabase="*res://Scripts/Player_setting/Player_database.gd"
+CardDatabase="*res://Scripts/Client/Scripts_card/Card_defenition/card_database.gd"
+DeckData="*res://Scripts/Client/Collection and deck mangment/Deck_data.gd"
+NetworkManager="*res://Scripts/Server/Network_manager.gd"
+NetworkMode="*res://Scripts/Server/Network_mode.gd"
+PlayerDatabase="*res://Scripts/Client/Player_setting/Player_database.gd"
 
 [display]
 

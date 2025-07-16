@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://b7e7ypio11pt0"]
 
-[ext_resource type="Script" uid="uid://cm2wxotntesbl" path="res://Scripts/Scripts_card/Card_defenition/card_template.gd" id="1_5hjqm"]
+[ext_resource type="Script" uid="uid://cm2wxotntesbl" path="res://Scripts/Client/Scripts_card/Card_defenition/card_template.gd" id="1_5hjqm"]
 [ext_resource type="Texture2D" uid="uid://blcut5iuevgp6" path="res://Sprites/photo_2025-05-23_13-55-42.jpg" id="1_okvs4"]
 [ext_resource type="Theme" uid="uid://bosnktrn0hmrw" path="res://Sprites/new_theme.tres" id="2_84j6k"]
-[ext_resource type="Script" uid="uid://bvkyssy6qnfph" path="res://Scripts/Scripts_card/Card_defenition/card_move.gd" id="3_84j6k"]
-[ext_resource type="Script" uid="uid://1l1sefyy00dg" path="res://Scripts/Scripts_card/Card_defenition/representation_manager.gd" id="6_djb2o"]
-[ext_resource type="Script" uid="uid://jhwfk5hn7jje" path="res://Scripts/Scripts_card/Card_defenition/state_manager.gd" id="6_lnt2x"]
+[ext_resource type="Script" uid="uid://bvkyssy6qnfph" path="res://Scripts/Client/Scripts_card/Card_defenition/card_move.gd" id="3_84j6k"]
+[ext_resource type="Script" uid="uid://1l1sefyy00dg" path="res://Scripts/Client/Scripts_card/Card_defenition/representation_manager.gd" id="6_djb2o"]
+[ext_resource type="Script" uid="uid://jhwfk5hn7jje" path="res://Scripts/Client/Scripts_card/Card_defenition/state_manager.gd" id="6_lnt2x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84j6k"]
 size = Vector2(63, 90)
