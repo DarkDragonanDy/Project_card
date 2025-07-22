@@ -8,6 +8,7 @@ extends Control
 # В login.gd добавляем новую логику:
 
 func _ready():
+	pass
 	# Проверяем режим запуска
 	if NetworkMode.is_server():
 		_transform_to_server_terminal()

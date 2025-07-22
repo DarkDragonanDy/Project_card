@@ -22,6 +22,7 @@ func _ready():
 
 func play_card(card: Card, hex_position: Vector2i) -> bool:
 	# Validate placement
+	
 	if not _is_valid_play(card, hex_position):
 		return false
 	

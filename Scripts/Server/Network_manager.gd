@@ -25,15 +25,21 @@ var game_state: Dictionary = {
 var is_connected: bool = false
 var my_peer_id: int = 0
 
+# Лобби
+var lobby_players: Dictionary = {}  # player_name: is_ready
+
+# Серверная логика
+var server_logic: ServerGameLogic
+
 func _ready():
+	pass
 	# Определяем режим работы по аргументам командной строки
-	var args = OS.get_cmdline_args()
-	if "--server" in args:
-		NetworkMode.set_mode(NetworkMode.Mode.SERVER)
-	elif "--client" in args:
-		NetworkMode.set_mode(NetworkMode.Mode.CLIENT)
-		
-		
+	#var args = OS.get_cmdline_args()
+	#if "--server" in args:
+		#NetworkMode.set_mode(NetworkMode.Mode.SERVER)
+		#await get_tree().create_timer(0.5).timeout
+		#start_server()
+	# Если не сервер - значит клиент, никаких дополнительных проверок
 
 func start_server() -> bool:
 	print("Starting server on port ", NetworkMode.server_port)
@@ -55,7 +61,10 @@ func start_server() -> bool:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
 	# Инициализируем игровое состояние
-	_initialize_server_game_state()
+	#_initialize_server_game_state()
+	
+	# Создаем серверную логику
+	
 	
 	print("Server started successfully")
 	server_started.emit()
@@ -81,6 +90,23 @@ func connect_to_server() -> bool:
 	
 	return true
 
+func _create_server_logic():
+	"""Создает серверную игровую логику"""
+	server_logic = preload("res://Scripts/Server/ServerGameLogic.gd").new()
+	server_logic.name = "ServerGameLogic"
+	add_child(server_logic)
+	
+	# Подключаем логи сервера к консоли
+	if server_logic.has_signal("server_log"):
+		server_logic.server_log.connect(_on_server_log)
+	
+	print("Server game logic created and connected")
+
+func _on_server_log(log_message: String):
+	"""Обработчик логов от ServerGameLogic"""
+	# Логи уже выводятся в ServerGameLogic, можно добавить дополнительную обработку
+	pass
+
 # ============= ОТПРАВКА ДЕЙСТВИЙ =============
 
 func send_game_action(action_type: String, data: Dictionary):
@@ -91,20 +117,20 @@ func send_game_action(action_type: String, data: Dictionary):
 		"timestamp": Time.get_unix_time_from_system()
 	}
 	
-	if NetworkMode.is_client():
+	if NetworkMode.is_server():
+		# Сервер обрабатывает действие локально
+		message["sender_peer_id"] = 1
+		_process_server_action(message)
+	else:
 		# Клиент отправляет запрос серверу
 		_request_action_from_server.rpc_id(1, message)
-	elif NetworkMode.is_server():
-		# Сервер обрабатывает действие локально
-		message["sender_peer_id"] = 1  # Сервер это peer 1
-		_process_server_action(message)
 
 # ============= RPC ФУНКЦИИ =============
 
 @rpc("any_peer", "call_remote", "reliable")
 func _request_action_from_server(message: Dictionary):
 	# Только сервер обрабатывает запросы
-	if not multiplayer.is_server():
+	if not NetworkMode.is_server():
 		return
 	
 	# Добавляем информацию о отправителе
@@ -120,21 +146,24 @@ func _broadcast_action_result(message: Dictionary):
 	game_action_received.emit(message)
 
 @rpc("authority", "call_remote", "reliable")
-func _send_game_state_to_peer(state: Dictionary):
-	# Новый игрок получает полное состояние игры
-	print("Received game state from server")
-	game_state = state.duplicate()
-	game_state_synchronized.emit(game_state)
+func _send_private_data(data: Dictionary):
+	"""RPC для отправки приватных данных игроку"""
+	print("Client received private data: ", data.type)
+	game_action_received.emit(data)
 
-@rpc("authority", "call_local", "reliable") 
-func _notify_player_left(player_name: String):
-	print("Player left the game: ", player_name)
-	player_disconnected.emit(player_name)
+@rpc("authority", "call_remote", "reliable")
+func _send_error_to_client(error_message: String):
+	"""RPC для отправки ошибок клиенту"""
+	print("Client received error: ", error_message)
+	game_action_received.emit({
+		"type": "error_message",
+		"data": {"message": error_message}
+	})
 
 @rpc("any_peer", "call_remote", "reliable")
 func _register_player(player_name: String):
 	# Только сервер обрабатывает регистрацию
-	if not multiplayer.is_server():
+	if not NetworkMode.is_server():
 		return
 	
 	var peer_id = multiplayer.get_remote_sender_id()
@@ -147,178 +176,78 @@ func _register_player(player_name: String):
 		"connected_at": Time.get_unix_time_from_system()
 	}
 	
-	# Добавляем игрока в игровое состояние
-	game_state.players[player_name] = {
-		"peer_id": peer_id,
-		"wealth": 1000,
-		"income": 100,
-		"cards_in_hand": []
-	}
-	
-	# Отправляем игроку текущее состояние
-	_send_game_state_to_peer.rpc_id(peer_id, game_state)
-	
 	# Уведомляем всех о новом игроке
 	player_connected.emit(player_name)
-
-@rpc("authority", "call_remote", "reliable")
-func _send_error_to_client(error_message: String):
-	print("Error from server: ", error_message)
 
 # ============= ОБРАБОТКА ДЕЙСТВИЙ НА СЕРВЕРЕ =============
 
 func _process_server_action(message: Dictionary):
-	print("Server processing action: ", message.type)
+	print("NetworkManager processing action: ", message.type)
 	
-	# Валидация действия
-	if not _validate_action(message):
-		print("Action rejected: ", message.type)
-		var peer_id = message.get("sender_peer_id", 1)
-		if peer_id != 1:  # Не отправляем ошибку самому серверу
-			_send_error_to_client.rpc_id(peer_id, "Invalid action: " + message.type)
+	# Игровые действия передаем в ServerGameLogic
+	if server_logic and _is_game_action(message.type):
+		server_logic._process_player_request(message)
+	else:
+		# Системные действия обрабатываем здесь
+		match message.type:
+			"join_lobby":
+				_handle_join_lobby(message)
+			"player_ready":
+				_handle_player_ready(message)
+			_:
+				print("Unknown action for NetworkManager: ", message.type)
+
+func _is_game_action(action_type: String) -> bool:
+	"""Определяет, является ли действие игровым"""
+	var game_actions = [
+		"request_start_game",
+		"request_card_play", 
+		"request_end_turn",
+		"request_game_state"
+	]
+	return action_type in game_actions
+
+func _handle_join_lobby(message: Dictionary):
+	var player_name = message.data.player_name
+	lobby_players[player_name] = false
+	
+	print("Player joined lobby: ", player_name)
+	_broadcast_lobby_state()
+
+func _handle_player_ready(message: Dictionary):
+	var player_name = message.data.player_name
+	var is_ready = message.data.is_ready
+	
+	lobby_players[player_name] = is_ready
+	
+	print("Player ready status: ", player_name, " = ", is_ready)
+	_broadcast_lobby_state()
+	
+	# Проверяем, можно ли начать игру
+	_check_game_start()
+
+func _broadcast_lobby_state():
+	_broadcast_action_result.rpc({
+		"type": "lobby_update",
+		"data": {"players": lobby_players}
+	})
+
+func _check_game_start():
+	if lobby_players.size() < 2:
 		return
 	
-	# Обновляем состояние игры
-	_update_game_state(message)
+	# Проверяем, все ли готовы
+	for is_ready in lobby_players.values():
+		if not is_ready:
+			return
 	
-	# Рассылаем результат всем клиентам
-	_broadcast_action_result.rpc(message)
-
-func _validate_action(message: Dictionary) -> bool:
-	match message.type:
-		"play_card":
-			return _validate_card_play(message)
-		"end_turn":
-			return _validate_turn_end(message)
-		"surrender":
-			return true
-		_:
-			print("Unknown action type: ", message.type)
-			return false
-
-func _validate_card_play(message: Dictionary) -> bool:
-	var data = message.data
-	var player_id = message.player_id
-	
-	# Проверяем базовые данные
-	if not data.has("card_name") or not data.has("hex_position"):
-		print("Card play missing required data")
-		return false
-	
-	# Проверяем очередь игрока
-	if not _is_player_turn(player_id):
-		print("Not player's turn: ", player_id)
-		return false
-	
-	# Проверяем, может ли игрок позволить себе карту
-	if not _player_can_afford_card(player_id, data.card_name):
-		print("Player cannot afford card: ", player_id, " -> ", data.card_name)
-		return false
-	
-	# Проверяем позицию на доске
-	if not _is_valid_hex_position(data.hex_position):
-		print("Invalid hex position: ", data.hex_position)
-		return false
-	
-	return true
-
-func _validate_turn_end(message: Dictionary) -> bool:
-	var player_id = message.player_id
-	return _is_player_turn(player_id)
-
-# ============= ИГРОВАЯ ЛОГИКА =============
-
-func _is_player_turn(player_id: String) -> bool:
-	# Простая проверка очереди (можно усложнить)
-	var current_player_name = _get_current_player_name()
-	return player_id == current_player_name
-
-func _get_current_player_name() -> String:
-	var player_number = game_state.get("current_player", 1)
-	var player_names = game_state.players.keys()
-	if player_names.size() >= player_number:
-		return player_names[player_number - 1]
-	return ""
-
-func _player_can_afford_card(player_id: String, card_name: String) -> bool:
-	if not game_state.players.has(player_id):
-		return false
-	
-	var player_wealth = game_state.players[player_id].get("wealth", 0)
-	var card_cost = _get_card_cost(card_name)
-	
-	return player_wealth >= card_cost
-
-func _get_card_cost(card_name: String) -> int:
-	# Здесь должна быть ссылка на базу данных карт
-	# Пока что возвращаем фиксированные значения
-	match card_name:
-		"Meadow":
-			return 150
-		"iceball":
-			return 100
-		"Fishing Place":
-			return 200
-		_:
-			return 100
-
-func _is_valid_hex_position(hex_pos: Dictionary) -> bool:
-	if not hex_pos.has("x") or not hex_pos.has("y"):
-		return false
-	
-	var x = hex_pos.x
-	var y = hex_pos.y
-	
-	# Проверяем, что позиция в разумных пределах
-	if x < -10 or x > 10 or y < -10 or y > 10:
-		return false
-	
-	# Проверяем, что позиция свободна
-	var pos_key = str(x) + "," + str(y)
-	return not game_state.board_state.has(pos_key)
-
-func _update_game_state(message: Dictionary):
-	match message.type:
-		"play_card":
-			_apply_card_play(message)
-		"end_turn":
-			_apply_turn_end(message)
-	
-	_save_current_game_state()
-
-func _apply_card_play(message: Dictionary):
-	var data = message.data
-	var player_id = message.player_id
-	
-	# Списываем деньги у игрока
-	var card_cost = _get_card_cost(data.card_name)
-	game_state.players[player_id].wealth -= card_cost
-	
-	# Размещаем карту на доске
-	var pos_key = str(data.hex_position.x) + "," + str(data.hex_position.y)
-	game_state.board_state[pos_key] = {
-		"card_name": data.card_name,
-		"owner": player_id,
-		"placed_turn": game_state.current_turn
-	}
-	
-	print("Card placed: ", data.card_name, " at ", pos_key, " by ", player_id)
-
-func _apply_turn_end(message: Dictionary):
-	# Переключаем игрока
-	var total_players = game_state.players.size()
-	game_state.current_player += 1
-	
-	if game_state.current_player > total_players:
-		game_state.current_player = 1
-		game_state.current_turn += 1
-		
-		# Начисляем доход всем игрокам в начале нового хода
-		for player_name in game_state.players.keys():
-			var income = game_state.players[player_name].get("income", 100)
-			game_state.players[player_name].wealth += income
-	
-	print("Turn ended. Current player: ", game_state.current_player, ", Turn: ", game_state.current_turn)
+	# Все готовы - начинаем игру
+	print("All players ready! Starting game...")
+	_broadcast_action_result.rpc({
+		"type": "game_start",
+		"data": {}
+	})
+	_create_server_logic()
 
 # ============= ОБРАБОТЧИКИ СОБЫТИЙ =============
 
@@ -331,18 +260,18 @@ func _on_peer_disconnected(peer_id: int):
 	
 	# Находим имя игрока по peer_id
 	var player_name = ""
-	for name in game_state.players.keys():
-		if game_state.players[name].get("peer_id") == peer_id:
-			player_name = name
-			break
+	if peer_id in connected_clients:
+		player_name = connected_clients[peer_id].get("player_name", "")
+		connected_clients.erase(peer_id)
 	
 	if player_name != "":
-		# Удаляем игрока из состояния
-		game_state.players.erase(player_name)
-		connected_clients.erase(peer_id)
+		# Удаляем из лобби
+		if player_name in lobby_players:
+			lobby_players.erase(player_name)
+			_broadcast_lobby_state()
 		
 		# Уведомляем остальных
-		_notify_player_left.rpc(player_name)
+		player_disconnected.emit(player_name)
 
 func _on_connected_to_server():
 	print("Connected to server successfully")
@@ -361,7 +290,6 @@ func _on_connection_failed():
 func _on_server_disconnected():
 	print("Disconnected from server")
 	is_connected = false
-	# Здесь можно показать сообщение пользователю
 
 # ============= ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =============
 
@@ -374,11 +302,6 @@ func _initialize_server_game_state():
 		"game_phase": "waiting"
 	}
 
-func _save_current_game_state():
-	# Здесь можно добавить сохранение состояния в файл
-	# для восстановления после краха сервера
-	pass
-
 func get_game_state() -> Dictionary:
 	return game_state.duplicate()
 
@@ -386,7 +309,25 @@ func is_connected_to_server() -> bool:
 	return is_connected
 
 func get_connected_players() -> Array:
-	return game_state.players.keys()
+	"""Возвращает список подключенных игроков"""
+	if lobby_players.is_empty():
+		# Fallback - собираем из connected_clients
+		var players = []
+		for client_data in connected_clients.values():
+			var player_name = client_data.get("player_name", "")
+			if player_name != "":
+				players.append(player_name)
+		return players
+	else:
+		return lobby_players.keys()
+
+func get_peer_id_for_player(player_name: String) -> int:
+	"""Получает peer_id игрока по имени"""
+	for peer_id in connected_clients.keys():
+		var client_data = connected_clients[peer_id]
+		if client_data.get("player_name", "") == player_name:
+			return peer_id
+	return 0
 
 func disconnect_from_network():
 	if multiplayer_peer:
@@ -395,19 +336,24 @@ func disconnect_from_network():
 	
 	is_connected = false
 	connected_clients.clear()
+	lobby_players.clear()
 	my_peer_id = 0
 
 # ============= DEBUG ФУНКЦИИ =============
 
-func print_game_state():
-	print("=== Game State ===")
-	print("Current Turn: ", game_state.current_turn)
-	print("Current Player: ", game_state.current_player)
-	print("Players: ", game_state.players.keys())
-	print("Board State: ", game_state.board_state.size(), " cards placed")
-	print("Connected Clients: ", connected_clients.size())
+func print_network_state():
+	print("=== Network State ===")
+	print("Network Mode: ", NetworkMode.current_mode)
+	print("Has multiplayer peer: ", multiplayer.has_multiplayer_peer())
+	print("Is server: ", multiplayer.is_server() if multiplayer.has_multiplayer_peer() else "N/A")
+	print("My peer ID: ", my_peer_id)
+	print("Is connected: ", is_connected)
+	print("Connected clients: ", connected_clients.keys())
+	print("Lobby players: ", lobby_players.keys())
 
 func _input(event):
 	# Debug controls
 	if event.is_action_pressed("ui_home"):  # Home key
-		print_game_state()
+		print_network_state()
+		if server_logic:
+			server_logic.print_game_status()

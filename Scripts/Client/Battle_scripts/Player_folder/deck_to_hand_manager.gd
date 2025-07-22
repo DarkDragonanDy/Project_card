@@ -35,7 +35,7 @@ func _ready():
 	# Connect signals
 	
 	hand_manager.hand_full.connect(_on_hand_full)
-	game_manager.game_started_signal.connect(_load_deck_from_data)
+	#game_manager.game_started_signal.connect(_load_deck_from_data)
 	
 	
 	# Load and initialize deck
