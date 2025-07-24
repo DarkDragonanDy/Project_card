@@ -1,4 +1,4 @@
-# hex_interaction_handler.gd - Handles mouse interaction with hexes
+#hex_interaction_handler.gd - Handles mouse interaction with hexes
 extends Node2D
 class_name HexInteractionHandler
 

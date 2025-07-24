@@ -22,7 +22,7 @@ func _transform_to_server_terminal():
 	$VBoxContainer/ColorRect_Collection.visible = false
 	
 	# Создаем серверный терминал
-	_create_server_terminal()
+	#_create_server_terminal()
 
 func _create_server_terminal():
 	# Создаем новый контейнер для терминала

@@ -15,6 +15,8 @@ func _ready():
 	
 	if "--server" in args:
 		current_mode = Mode.SERVER
+		var success = await NetworkManager.start_server()
+		
 		print("Starting as SERVER")
 	else:
 		current_mode = Mode.CLIENT

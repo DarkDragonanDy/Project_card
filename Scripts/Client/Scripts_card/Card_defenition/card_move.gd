@@ -31,7 +31,6 @@ var is_avoiding_collision: bool = false
 var position_tween: Tween
 var scale_tween: Tween
 
-
 # Signals
 signal drag_started(card: Card)
 signal drag_ended(card: Card)
@@ -183,6 +182,7 @@ func _start_drag():
 	print("Started dragging: ", card_ref.card_name)
 
 func _end_drag():
+	
 	if not is_dragging:
 		return
 	
@@ -195,15 +195,15 @@ func _end_drag():
 	
 	# Check for valid drop
 	var hex_pos = _get_hex_under_mouse()
-	var valid_drop = _is_valid_drop_position(hex_pos)
+	var play_manager = get_node_or_null("/root/Battle_scene/card_play_manager")
+
+	play_manager.request_card_play(card_ref,hex_pos)
 	
-	if valid_drop:
-		# Card was played
-		dropped_on_hex.emit(card_ref, hex_pos)
-		print("Card played at hex: ", hex_pos)
-	else:
-		# Return to hand
-		_return_to_hand()
+	#if valid_drop:
+		## Card was played
+		#dropped_on_hex.emit(card_ref, hex_pos)
+		#print("Card played at hex: ", hex_pos)
+	
 	
 	drag_ended.emit(card_ref)
 
@@ -223,16 +223,16 @@ func _get_hex_under_mouse() -> Vector2i:
 	return Vector2i(-999, -999)
 
 # Add this method to handle hex validation
-func _is_valid_drop_position(hex_pos: Vector2i) -> bool:
-	if hex_pos == Vector2i(-999, -999):
-		return false
-	
-	# Check with play manager
-	var play_manager = get_node_or_null("/root/Battle_scene/card_play_manager")
-	if play_manager:
-		return play_manager._is_valid_hex(hex_pos) and not hex_pos in play_manager.played_cards
-	
-	return false
+#func _is_valid_drop_position(hex_pos: Vector2i) -> bool:
+	#if hex_pos == Vector2i(-999, -999):
+		#return false
+	#
+	## Check with play manager
+	#var play_manager = get_node_or_null("/root/Battle_scene/card_play_manager")
+	#if play_manager:
+		#return play_manager._is_valid_hex(hex_pos) and not hex_pos in play_manager.played_cards
+	#
+	#return false
 
 # Update the _on_dropped_on_hex method
 func _on_dropped_on_hex(card: Card, hex_pos: Vector2i):

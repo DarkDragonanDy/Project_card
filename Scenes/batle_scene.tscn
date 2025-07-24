@@ -1,15 +1,14 @@
-[gd_scene load_steps=16 format=4 uid="uid://bow8thkqjeif0"]
+[gd_scene load_steps=15 format=4 uid="uid://bow8thkqjeif0"]
 
-[ext_resource type="Script" uid="uid://cmughckqkngrv" path="res://Scripts/Client/Battle_scripts/GameSetupCoordinator.gd" id="1_ddmmf"]
-[ext_resource type="Script" uid="uid://sect1ube17ko" path="res://Scripts/Client/Battle_scripts/Rules/game_manager.gd" id="2_vs4tl"]
-[ext_resource type="Script" uid="uid://to1vrgj640xc" path="res://Scripts/Client/Battle_scripts/Rules/turn_manager.gd" id="3_7hkq8"]
+[ext_resource type="Script" uid="uid://ddr8odyu0373q" path="res://Scripts/Client/Battle_scripts/Player_folder/batle_scene.gd" id="1_qf21i"]
 [ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_dr1m7"]
-[ext_resource type="Script" uid="uid://bkanc5l2e7hjo" path="res://Scripts/Client/Battle_scripts/Rules/economy_manager.gd" id="4_olq85"]
 [ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="4_vs4tl"]
 [ext_resource type="Script" uid="uid://cqu2h4dcj2ynx" path="res://Scripts/Client/Battle_scripts/Player_folder/Hand_Manger.gd" id="5_7hkq8"]
 [ext_resource type="Script" uid="uid://c7ateak3pcpm3" path="res://Scripts/Client/Battle_scripts/Rules/card_play_manager.gd" id="5_olq85"]
 [ext_resource type="Script" uid="uid://x7auran8vctc" path="res://Scripts/Client/Battle_scripts/Player_folder/deck_to_hand_manager.gd" id="6_dfds4"]
-[ext_resource type="Script" uid="uid://bmdgte2fiukg6" path="res://Scripts/Client/Player_setting/button_menue.gd" id="8_7hkq8"]
+[ext_resource type="Script" uid="uid://cttdteh0n73tx" path="res://Scripts/end_turn.gd" id="6_vs4tl"]
+[ext_resource type="Script" uid="uid://cwejx4cfkisbb" path="res://Scripts/Client/Battle_scripts/Player_folder/ClientUIUpdater.gd" id="7_dfds4"]
+[ext_resource type="Script" uid="uid://bmdgte2fiukg6" path="res://Scripts/Client/UI_buttons/button_menue.gd" id="8_7hkq8"]
 [ext_resource type="Script" uid="uid://cfnf8oheaowdu" path="res://Scripts/Client/Battle_scripts/Rules/hex_interaction_handler.gd" id="11_7hkq8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ls15t"]
@@ -37,16 +36,13 @@ tile_proxies/coords_level = [[5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vecto
 [sub_resource type="CanvasTexture" id="CanvasTexture_vs4tl"]
 
 [node name="Battle_scene" type="Node2D"]
-script = ExtResource("1_ddmmf")
+script = ExtResource("1_qf21i")
 
 [node name="Game_manager" type="Node" parent="."]
-script = ExtResource("2_vs4tl")
 
 [node name="Turn_manager" type="Node" parent="."]
-script = ExtResource("3_7hkq8")
 
 [node name="Economy_manager" type="Node" parent="."]
-script = ExtResource("4_olq85")
 
 [node name="card_play_manager" type="Node" parent="."]
 script = ExtResource("5_olq85")
@@ -223,6 +219,7 @@ offset_top = -31.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "End turn"
+script = ExtResource("6_vs4tl")
 
 [node name="Player_wealth_display" type="Control" parent="Control_lair/Game_UI/Right_info_display"]
 layout_mode = 1
@@ -360,5 +357,7 @@ script = ExtResource("5_7hkq8")
 [node name="hex_interaction_handler" type="Node2D" parent="Playable_lair"]
 script = ExtResource("11_7hkq8")
 
+[node name="ClientUIUpdater" type="Node" parent="."]
+script = ExtResource("7_dfds4")
+
 [connection signal="pressed" from="Control_lair/Game_UI/Exit/Button" to="Control_lair/Game_UI/Exit/Button" method="_on_pressed"]
-[connection signal="pressed" from="Control_lair/Game_UI/Right_info_display/Turn_space/End_Turn" to="Turn_manager" method="advance_to_end_phase"]

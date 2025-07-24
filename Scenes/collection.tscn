@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://g6c6uisjo8mg" path="res://Scripts/Client/Collection and deck mangment/item_list_collection.gd" id="1_d2ee6"]
 [ext_resource type="Script" uid="uid://bn7qb655xorr0" path="res://Scripts/Client/Collection and deck mangment/deck_manager.gd" id="1_f77j5"]
 [ext_resource type="Script" uid="uid://cfwdxi4w6hgyg" path="res://Scripts/Client/Collection and deck mangment/deck_modification_manager.gd" id="2_ungwm"]
-[ext_resource type="Script" uid="uid://bmdgte2fiukg6" path="res://Scripts/Client/Player_setting/button_menue.gd" id="5_t2cyl"]
+[ext_resource type="Script" uid="uid://bmdgte2fiukg6" path="res://Scripts/Client/UI_buttons/button_menue.gd" id="5_t2cyl"]
 [ext_resource type="Script" uid="uid://cwp0crt06wulr" path="res://Scripts/Client/Collection and deck mangment/Exit_collection.gd" id="5_u01rs"]
 
 [node name="Collection" type="Control"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dh47y1vvktajk"]
 
-[ext_resource type="Script" uid="uid://cq3aeiivi3ihb" path="res://Scripts/Client/Player_setting/login.gd" id="1_5cd0j"]
+[ext_resource type="Script" uid="uid://cq3aeiivi3ihb" path="res://Scripts/Server/login.gd" id="1_5cd0j"]
 
 [node name="Login" type="Control"]
 layout_mode = 3

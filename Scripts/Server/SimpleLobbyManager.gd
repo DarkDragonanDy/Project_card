@@ -117,5 +117,11 @@ func _update_lobby_display(lobby_data: Dictionary):
 
 func _start_game():
 	print("Starting game!")
+	
 	start_game.emit()
-	queue_free()
+	
+	# Wait a frame for the signal to be processed
+	
+	
+	# Change to battle scene
+	

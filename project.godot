@@ -24,7 +24,8 @@ CardDatabase="*res://Scripts/Client/Scripts_card/Card_defenition/card_database.g
 DeckData="*res://Scripts/Client/Collection and deck mangment/Deck_data.gd"
 NetworkManager="*res://Scripts/Server/Network_manager.gd"
 NetworkMode="*res://Scripts/Server/Network_mode.gd"
-PlayerDatabase="*res://Scripts/Client/Player_setting/Player_database.gd"
+PlayerDatabase="*res://Scripts/Server/Player_database.gd"
+ClientGameState="*res://Scripts/Client/Battle_scripts/Player_folder/client_game_state.gd"
 
 [display]
 
