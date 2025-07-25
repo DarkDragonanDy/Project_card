@@ -7,4 +7,13 @@ static func create() -> IceballCard:
 	return instance
 	
 func _init():
-	super("Iceball", "Deal 3 damage", 3, "fireball_001", preload("res://Sprites/Tiles/cropped-image-99wl-4.png"))
+	card_name = "Rocket"
+	card_description = "Generates 20 gold per turn"
+	card_cost = 300
+	income_per_turn = 20
+	special_effects = ["income_generation"]
+	# Load textures
+	card_art = preload("res://Sprites/Sprites_card_art/photo_2025-06-09_19-39-50.jpg")
+	tile_source_id = 4  # Main tileset
+	tile_atlas_coords = Vector2i(0, 0)
+	

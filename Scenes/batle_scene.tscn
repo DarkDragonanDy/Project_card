@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ddr8odyu0373q" path="res://Scripts/Client/Battle_scripts/Player_folder/batle_scene.gd" id="1_qf21i"]
 [ext_resource type="Texture2D" uid="uid://cjmrxbuehslmt" path="res://Sprites/Tiles/cropped-image-1x8t-3.png" id="3_dr1m7"]
-[ext_resource type="Texture2D" uid="uid://bv6a68qtq1ux8" path="res://Sprites/Tiles/Tile.png" id="4_vs4tl"]
+[ext_resource type="Texture2D" uid="uid://chlcx4suanjh1" path="res://Sprites/Tiles/tile_2.png" id="4_vs4tl"]
 [ext_resource type="Script" uid="uid://cqu2h4dcj2ynx" path="res://Scripts/Client/Battle_scripts/Player_folder/Hand_Manger.gd" id="5_7hkq8"]
 [ext_resource type="Script" uid="uid://c7ateak3pcpm3" path="res://Scripts/Client/Battle_scripts/Rules/card_play_manager.gd" id="5_olq85"]
 [ext_resource type="Script" uid="uid://x7auran8vctc" path="res://Scripts/Client/Battle_scripts/Player_folder/deck_to_hand_manager.gd" id="6_dfds4"]
@@ -16,12 +16,14 @@ texture = ExtResource("3_dr1m7")
 texture_region_size = Vector2i(1024, 1024)
 0:0/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a0nht"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7hkq8"]
 texture = ExtResource("4_vs4tl")
 texture_region_size = Vector2i(1024, 1024)
 0:0/0 = 0
-0:0/0/custom_data_0 = [null, null]
 1:0/0 = 0
+1:0/0/custom_data_0 = [null, null]
+2:0/0 = 0
+3:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_4a4nb"]
 tile_shape = 3
@@ -29,9 +31,9 @@ tile_offset_axis = 1
 tile_size = Vector2i(1024, 888)
 custom_data_layer_0/name = "Card_Name"
 custom_data_layer_0/type = 28
-sources/8 = SubResource("TileSetAtlasSource_a0nht")
 sources/13 = SubResource("TileSetAtlasSource_ls15t")
-tile_proxies/coords_level = [[5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vector2i(0, 0)], [8, Vector2i(1, 0)]]
+sources/4 = SubResource("TileSetAtlasSource_7hkq8")
+tile_proxies/coords_level = [[0, Vector2i(0, 0)], [2, Vector2i(0, 0)], [2, Vector2i(0, 0)], [4, Vector2i(0, 0)], [2, Vector2i(1, 0)], [4, Vector2i(1, 0)], [2, Vector2i(2, 0)], [4, Vector2i(2, 0)], [3, Vector2i(0, 0)], [4, Vector2i(3, 0)], [5, Vector2i(0, 0)], [8, Vector2i(0, 0)], [7, Vector2i(0, 0)], [8, Vector2i(1, 0)], [8, Vector2i(0, 0)], [2, Vector2i(1, 0)], [8, Vector2i(1, 0)], [2, Vector2i(2, 0)]]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_vs4tl"]
 
@@ -108,7 +110,7 @@ color = Color(0.69065, 0.625067, 0.54425, 1)
 [node name="TileMapLayer" type="TileMapLayer" parent="Control_lair/Game_UI/GridContainer/Game_board"]
 position = Vector2(324, 140)
 scale = Vector2(0.045, 0.045)
-tile_map_data = PackedByteArray("AAD/////DQAAAAAAAAABAP7/DQAAAAAAAAAAAP7/DQAAAAAAAAAAAP//DQAAAAAAAAABAP//DQAAAAAAAAAAAAAADQAAAAAAAAD//wAADQAAAAAAAAAAAAEADQAAAAAAAAABAAAADQAAAAAAAAABAAEACAAAAAAAAAACAAEADQAAAAAAAAACAAAADQAAAAAAAAABAAIADQAAAAAAAAABAP3/DQAAAAAAAAAAAAIADQAAAAAAAAD//wEADQAAAAAAAAD9/wAADQAAAAAAAAD+/wAADQAAAAAAAAD+////DQAAAAAAAAD///7/DQAAAAAAAAD8/wAADQAAAAAAAAD9////DQAAAAAAAAD9//7/DQAAAAAAAAD+//7/DQAAAAAAAAD///3/DQAAAAAAAAAAAP3/DQAAAAAAAAD+//3/DQAAAAAAAAD9//3/DQAAAAAAAAD8//7/DQAAAAAAAAD8////DQAAAAAAAAD7////DQAAAAAAAAACAP3/DQAAAAAAAAACAP7/DQAAAAAAAAACAP//DQAAAAAAAAD+/wEACAAAAAAAAAABAPz/DQAAAAAAAAABAAMADQAAAAAAAAAAAAMADQAAAAAAAAACAAIADQAAAAAAAAADAAAADQAAAAAAAAD+/wIADQAAAAAAAAACAAMADQAAAAAAAAD7//7/DQAAAAAAAAADAAEADQAAAAAAAAADAAIADQAAAAAAAAAEAAIADQAAAAAAAAAEAAEADQAAAAAAAAADAP//DQAAAAAAAAAEAAAADQAAAAAAAAAEAP//DQAAAAAAAAADAP7/DQAAAAAAAAADAP3/DQAAAAAAAAAEAP3/DQAAAAAAAAAEAP7/DQAAAAAAAAADAPz/DQAAAAAAAAD//wIADQAAAAAAAAAFAP7/DQAAAAAAAAAFAP//DQAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD/////DQAAAAAAAAABAP7/DQAAAAAAAAAAAP7/DQAAAAAAAAAAAP//DQAAAAAAAAABAP//DQAAAAAAAAAAAAAADQAAAAAAAAD//wAADQAAAAAAAAAAAAEADQAAAAAAAAABAAAADQAAAAAAAAABAAEADQAAAAAAAAACAAEADQAAAAAAAAACAAAADQAAAAAAAAABAAIADQAAAAAAAAABAP3/DQAAAAAAAAAAAAIADQAAAAAAAAD//wEADQAAAAAAAAD9/wAADQAAAAAAAAD+/wAADQAAAAAAAAD+////DQAAAAAAAAD///7/DQAAAAAAAAD8/wAADQAAAAAAAAD9////DQAAAAAAAAD9//7/DQAAAAAAAAD+//7/DQAAAAAAAAD///3/DQAAAAAAAAAAAP3/DQAAAAAAAAD+//3/DQAAAAAAAAD9//3/DQAAAAAAAAD8//7/DQAAAAAAAAD8////DQAAAAAAAAD7////DQAAAAAAAAACAP3/DQAAAAAAAAACAP7/DQAAAAAAAAACAP//DQAAAAAAAAD+/wEADQAAAAAAAAABAPz/DQAAAAAAAAABAAMADQAAAAAAAAAAAAMADQAAAAAAAAACAAIADQAAAAAAAAADAAAADQAAAAAAAAD+/wIADQAAAAAAAAACAAMADQAAAAAAAAD7//7/DQAAAAAAAAADAAEADQAAAAAAAAADAAIADQAAAAAAAAAEAAIADQAAAAAAAAAEAAEADQAAAAAAAAADAP//DQAAAAAAAAAEAAAADQAAAAAAAAAEAP//DQAAAAAAAAADAP7/DQAAAAAAAAADAP3/DQAAAAAAAAAEAP3/DQAAAAAAAAAEAP7/DQAAAAAAAAADAPz/DQAAAAAAAAD//wIADQAAAAAAAAAFAP7/DQAAAAAAAAAFAP//DQAAAAAAAAAFAAAADQAAAAAAAAAFAAEADQAAAAAAAAD9/wEADQAAAAAAAAD8/wEADQAAAAAAAAD7/wAADQAAAAAAAAD7/wEADQAAAAAAAAD8/wIADQAAAAAAAAD9/wIADQAAAAAAAAD+/wMADQAAAAAAAAD///z/DQAAAAAAAAAFAP3/DQAAAAAAAAD//wMADQAAAAAAAAADAAMADQAAAAAAAAAEAAMADQAAAAAAAAAFAAIADQAAAAAAAAA=")
 tile_set = SubResource("TileSet_4a4nb")
 
 [node name="Your Hand" type="Control" parent="Control_lair/Game_UI/GridContainer"]

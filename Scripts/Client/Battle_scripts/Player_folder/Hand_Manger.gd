@@ -63,6 +63,7 @@ func _handle_card_drawn(data: Dictionary):
 	# Анимируем появление
 	_animate_card_draw(card_instance)
 	_animate_hand_layout()
+	
 func add_card_to_hand(card: Card) -> bool:
 	if cards_in_hand.size() >= MAX_HAND_SIZE:
 		

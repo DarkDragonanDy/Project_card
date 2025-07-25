@@ -2,6 +2,7 @@ extends Node
 class_name TurnManager
 
 enum GamePhase {
+	WAITING_PHASE,
 	DRAW_PHASE,
 	MAIN_PHASE,
 	END_PHASE

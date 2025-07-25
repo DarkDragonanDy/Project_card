@@ -1,7 +1,7 @@
 extends Node
 var card_database = {
-	"Meadow": Meadow_Card,
-	"iceball": IceballCard,
+	"Meadow Card": Meadow_Card,
+	"Rocket": IceballCard,
 	"Fishing Place": FishingPlace_Card,
 	"Wheat Field": WheatFieldCard,
 }

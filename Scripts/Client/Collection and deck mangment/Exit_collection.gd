@@ -4,7 +4,7 @@ extends Node
 
 
 func _ready():
-	exit_collection.play_requested.connect(_on_exit_requested)
+	pass
 # In your deck building scene (where deck manager is):
 func _on_exit_requested():
 	# Save deck data to singleton
